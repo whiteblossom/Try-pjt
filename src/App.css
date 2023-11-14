@@ -4,12 +4,12 @@ body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fff; 
+  background-color: #fff;
 }
 
 header {
-  background-color: #4B89DC; 
-  color: #1a1a1a; 
+  background-color: #4B89DC;
+  color: #1a1a1a;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -21,17 +21,18 @@ header h1 {
   color: #fff;
 }
 
-header h1 a{
+header h1 a {
   margin: 0;
   color: #fff;
   text-decoration: none;
 }
 
-header nav a{
+header nav a {
   margin: 0;
   color: #fff;
   font-size: 20px;
 }
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -46,20 +47,13 @@ nav ul {
 }
 
 nav ul li {
-  color: #1a1a1a; 
+  color: #1a1a1a;
   margin-right: 40px;
   font-size: 18px;
 }
 
-nav ul {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 nav a {
-  color: #1a1a1a; 
+  color: #1a1a1a;
   text-decoration: none;
 }
 
@@ -70,18 +64,20 @@ nav a:hover {
 .container {
   max-width: 1200px;
   margin: 20px auto;
-  padding: 20px;
-  background-color: #fff; 
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Add overflow: hidden to clear floated elements */
 }
 
 .footer {
+  clear: both; /* Clear floats */
   text-align: center;
   padding: 10px;
   background-color: #fff;
   color: #1a1a1a;
 }
+
 /* 검색창 및 버튼 스타일 */
 .search-box {
   display: flex;
@@ -108,4 +104,40 @@ nav a:hover {
 
 .search-box button:hover {
   background-color: #366BB5;
+}
+
+.headline-container {
+  width: 70%;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box; /* Fix the width issue caused by padding */
+}
+
+.today-container {
+  width: 30%;
+  float: left;
+  padding: 20px;
+  background-color: #f2f2f2; /* Add background color to distinguish */
+  box-sizing: border-box; /* Fix the width issue caused by padding */
+}
+
+.headline-container h1 {
+  margin-bottom: 10px;
+}
+
+.headline-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.headline-container ul li {
+  margin-bottom: 10px;
+}
+
+.today-container h2 {
+  margin-bottom: 10px;
+}
+
+.today-container p {
+  margin: 5px 0;
 }
