@@ -12,7 +12,11 @@ const App = () => {
     <Router>
       <div>
         <header>
-          <h1> <Link to="/">TRY</Link></h1>
+          <h1><Link to="/">TRY</Link></h1>
+          <div className="search-box">
+            <input type="text" placeholder="Search" />
+            <button type="button">Search</button>
+          </div>
           <nav>
             <Link to="/login">Login</Link>
           </nav>
