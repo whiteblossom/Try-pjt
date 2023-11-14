@@ -1,16 +1,46 @@
-.App {
+/* App.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: #444;
+  padding: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
   text-align: center;
-  margin-top: 50px;
-}
-
-label {
-  display: block;
-  margin: 10px 0;
-}
-
-button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  font-size: 16px;
-  cursor: pointer;
+  padding: 10px;
+  background-color: #333;
+  color: white;
 }
