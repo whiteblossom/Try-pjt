@@ -14,9 +14,6 @@ const App = () => {
         <header>
           <h1> <Link to="/">TRY</Link></h1>
           <nav>
-          <Link to="/">
-            <h1>TRY</h1>
-          </Link>
             <Link to="/login">Login</Link>
           </nav>
         </header>
