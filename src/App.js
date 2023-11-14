@@ -12,11 +12,23 @@ const App = () => {
     <Router>
       <div>
         <header>
-          <h1>TRY</h1>
+          <Link to="/">
+            <h1>TRY</h1>
+          </Link>
           <nav>
             <Link to="/login">Login</Link>
           </nav>
         </header>
+        <nav>
+          <ul>
+            <li><Link to="/category/politics">Politics</Link></li>
+            <li><Link to="/category/economy">Economy</Link></li>
+            <li><Link to="/category/society">Society</Link></li>
+            <li><Link to="/category/it">IT</Link></li>
+            <li><Link to="/category/world">World</Link></li>
+            <li><Link to="/category/culture">Culture</Link></li>
+          </ul>
+        </nav>
         <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
