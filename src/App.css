@@ -4,12 +4,12 @@ body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffecb3; /* Light yellow background */
+  background-color: #fff; 
 }
 
 header {
-  background-color: #fff; /* Dark gray header */
-  color: #ffcc00; /* Yellow text */
+  background-color: #4B89DC; 
+  color: #1a1a1a; 
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -19,12 +19,11 @@ header {
 nav {
   display: flex;
   justify-content: space-around;
-  background-color: pink; /* Dark background for navigation */
   padding: 10px;
 }
 
 nav a {
-  color: #ffcc00; /* Yellow text for navigation links */
+  color: #fff; 
   text-decoration: none;
 }
 
@@ -36,7 +35,7 @@ nav a:hover {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #fff; /* White container background */
+  background-color: #fff; 
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -44,19 +43,12 @@ nav a:hover {
 .footer {
   text-align: center;
   padding: 10px;
-  background-color: #fff; /* Dark gray footer */
-  color: #ffcc00; /* Yellow text */
+  background-color: #fff; 
+  color: #1a1a1a; 
 }
 
 /* Additional styles for the TRY logo */
 header h1 {
   margin: 0;
-  color:aqua;
-}
-
-/* Additional styles for the login link */
-nav a {
-  margin-right: 10px;
-  color: #1a1a1a; /* Dark gray text for login link */
-  text-decoration: none;
+  color: #fff;
 }

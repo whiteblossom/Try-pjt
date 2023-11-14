@@ -14,10 +14,7 @@ const App = () => {
         <header>
           <h1>TRY</h1>
           <nav>
-            <Link to="/">Home</Link>
-            <Link to="/detail">Detail</Link>
             <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
           </nav>
         </header>
         <div className="container">
