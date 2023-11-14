@@ -67,11 +67,11 @@ nav a:hover {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Add overflow: hidden to clear floated elements */
+  overflow: hidden;
 }
 
 .footer {
-  clear: both; /* Clear floats */
+  clear: both;
   text-align: center;
   padding: 10px;
   background-color: #fff;
@@ -86,14 +86,14 @@ nav a:hover {
 }
 
 .search-box input {
-  flex-grow: 1; /* 남은 공간을 모두 채우도록 설정 */
+  flex-grow: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .search-box button {
-  margin-left: 10px; /* 버튼과의 여백 추가 */
+  margin-left: 10px;
   padding: 10px;
   background-color: #4B89DC;
   color: #fff;
@@ -106,19 +106,23 @@ nav a:hover {
   background-color: #366BB5;
 }
 
-.headline-container {
-  width: 70%;
-  float: left;
-  padding: 20px;
-  box-sizing: border-box; /* Fix the width issue caused by padding */
+.main-container {
+  display: flex;
 }
 
-.today-container {
+.left-container {
+  width: 70%;
+  float: left;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.right-container {
   width: 30%;
   float: left;
+  box-sizing: border-box;
   padding: 20px;
-  background-color: #f2f2f2; /* Add background color to distinguish */
-  box-sizing: border-box; /* Fix the width issue caused by padding */
+  background-color: #f2f2f2;
 }
 
 .headline-container h1 {
@@ -131,6 +135,24 @@ nav a:hover {
 }
 
 .headline-container ul li {
+  margin-bottom: 10px;
+}
+
+.interest-container {
+
+  background-color: #F0F8FF;
+}
+
+.interest-container h2 {
+  margin-bottom: 10px;
+}
+
+.interest-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.interest-container ul li {
   margin-bottom: 10px;
 }
 
