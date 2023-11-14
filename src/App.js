@@ -12,9 +12,7 @@ const App = () => {
     <Router>
       <div>
         <header>
-          <Link to="/">
-            <h1>TRY</h1>
-          </Link>
+          <h1> <Link to="/">TRY</Link></h1>
           <nav>
             <Link to="/login">Login</Link>
           </nav>
