@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import MainPage from './component/MainPage';
 import DetailPage from './component/DetailPage';
 import LoginPage from './component/LoginPage';
@@ -12,18 +12,21 @@ const App = () => {
     <Router>
       <div>
         <header>
-          <h1>News App</h1>
+          <h1>TRY</h1>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/detail">Detail</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Signup</Link>
+          </nav>
         </header>
-        <nav>
+        <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/detail" element={<DetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
           </Routes>
-        </nav>
-        <div className="container">
-          {/* 페이지 컴포넌트들의 내용 */}
         </div>
         <div className="footer">
           © 2023 News App. All rights reserved.
