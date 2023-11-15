@@ -5,6 +5,7 @@ import MainPage from './component/MainPage';
 import DetailPage from './component/DetailPage';
 import LoginPage from './component/LoginPage';
 import SignupPage from './component/SignupPage';
+import MyPage from './component/MyPage';
 import './App.css';
 
 const App = () => {
@@ -16,10 +17,12 @@ const App = () => {
           <h1><Link to="/">TRY</Link></h1>
           <div className="search-box">
             <input type="text" placeholder="Search" />
-            <button type="button">Search</button>
+            <button type="button">검색</button>
           </div>
           <nav>
-            <Link to="/login">Login</Link>
+            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
+            <Link to="/mypage">마이페이지</Link>
           </nav>
           </div>
         </header>
@@ -39,6 +42,7 @@ const App = () => {
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/mypage" element={<MyPage />} />
           </Routes>
         </div>
         <div className="footer">
