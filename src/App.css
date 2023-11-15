@@ -204,3 +204,29 @@ nav a:hover {
   margin: 10px 1px;
   text-align:  center;
 }
+
+#title {
+  margin-bottom: 5px;
+}
+.standard{
+  display: 'flex';
+  text-align: center;
+}
+.standard button {
+  margin: 5px; /* 버튼 사이의 간격 조절 */
+  padding: 5px 10px; /* 버튼 안의 내용과 버튼 테두리 간격 조절 */
+  background: transparent; /* 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  transition: background 0.3s; /* 호버 효과에 전환을 추가 */
+}
+
+.standard button:hover {
+  background: rgba(0, 0, 0, 0.1); /* 호버 시 배경을 약간 어둡게 설정 */
+}
+
+
+
+.standard img{
+  width: 20px; /* 이미지 크기 조절 */
+  height: 20px;
+}
