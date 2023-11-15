@@ -7,6 +7,8 @@ import LoginPage from './component/LoginPage';
 import SignupPage from './component/SignupPage';
 import MyPage from './component/MyPage';
 import './App.css';
+import SearchPage from './component/SearchPage';  // SearchPage를 import
+
 
 const App = () => {
   return (
@@ -17,7 +19,7 @@ const App = () => {
           <h1><Link to="/">TRY</Link></h1>
           <div className="search-box">
             <input type="text" placeholder="Search" />
-            <button type="button">검색</button>
+            <Link to="/search"><button type="button">search</button></Link>
           </div>
           <nav>
             <Link to="/login">로그인</Link>
@@ -39,6 +41,7 @@ const App = () => {
         <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/search" element={<SearchPage />} /> {/* SearchPage 추가 */}
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
