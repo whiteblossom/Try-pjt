@@ -27,8 +27,12 @@ const MainPage = () => {
 
     // 가상의 관심 컨테이너 정보
     const dummyInterests = [
-      { id: 1, title: '관심 주제 1', description: '관심 주제 1에 대한 설명' },
-      { id: 2, title: '관심 주제 2', description: '관심 주제 2에 대한 설명' },
+      { id: 1, title: '관심 주제 1', description: '기사 제목' },
+      { id: 2, title: '관심 주제 2', description: '기사 제목' },
+      { id: 3, title: '관심 주제 3', description: '기사 제목' },
+      { id: 4, title: '관심 주제 4', description: '기사 제목' },
+      { id: 5, title: '관심 주제 5', description: '기사 제목' },
+      { id: 6, title: '관심 주제 6', description: '기사 제목' },
       // 추가적인 관심 주제
     ];
     setInterests(dummyInterests);
@@ -49,15 +53,15 @@ const MainPage = () => {
             </ul>
           </div>
           <div className="interest-container">
-            <h2>관심 컨테이너</h2>
-            <ul>
+            <h2>관심 키워드 별 뉴스</h2>
+            <div className="interest-grid">
               {interests.map((interest) => (
-                <li key={interest.id}>
+                <div key={interest.id} className="interest-item">
                   <h3>{interest.title}</h3>
                   <p>{interest.description}</p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
         <div className="right-container">

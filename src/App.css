@@ -1,4 +1,8 @@
-/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+* {     
+  font-family: 'Gowun Dodum', sans-serif;
+}
 
 body {
   font-family: 'Arial', sans-serif;
@@ -139,12 +143,25 @@ nav a:hover {
 }
 
 .interest-container {
-
   background-color: #F0F8FF;
+  padding: 20px;
 }
 
 .interest-container h2 {
   margin-bottom: 10px;
+}
+
+.interest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.interest-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
 }
 
 .interest-container ul {
@@ -153,10 +170,6 @@ nav a:hover {
 }
 
 .interest-container ul li {
-  margin-bottom: 10px;
-}
-
-.today-container h2 {
   margin-bottom: 10px;
 }
 
