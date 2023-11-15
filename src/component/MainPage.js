@@ -47,7 +47,8 @@ const MainPage = () => {
             <ul>
               {headlines.map((headline) => (
                 <li key={headline.id}>
-                  <Link to={`/news/${headline.id}`}>{headline.title}</Link>
+                  {/* Link를 사용하여 해당 기사의 상세 페이지로 이동 */}
+                  <Link to={`/detail/${headline.id}`}>{headline.title}</Link>
                 </li>
               ))}
             </ul>
