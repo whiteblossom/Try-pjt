@@ -10,7 +10,6 @@ body {
   padding: 0;
   background-color: #fff;
 }
-
 header {
   background-color: #4B89DC;
   color: #1a1a1a;
@@ -20,18 +19,40 @@ header {
   align-items: center;
 }
 
-header h1 {
-  margin: 0;
-  color: #fff;
+.center {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1; /* 중요: 나머지 공간을 차지하도록 설정 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-header h1 a {
+.center h1 {
+  display: flex;
+  width: 100px;
+  margin: 0;
+}
+
+.center h1 a {
   margin: 0;
   color: #fff;
   text-decoration: none;
 }
 
-header nav a {
+.center .search-box {
+  flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+  margin: 0 20px; /* 필요한 여백을 조절하세요 */
+}
+
+.center nav {
+  width: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.center nav a {
   margin: 0;
   color: #fff;
   font-size: 20px;
@@ -64,6 +85,7 @@ nav a {
 nav a:hover {
   text-decoration: none;
 }
+
 
 .container {
   max-width: 1200px;

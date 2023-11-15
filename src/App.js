@@ -12,6 +12,7 @@ const App = () => {
     <Router>
       <div>
         <header>
+          <div className="center">
           <h1><Link to="/">TRY</Link></h1>
           <div className="search-box">
             <input type="text" placeholder="Search" />
@@ -20,6 +21,7 @@ const App = () => {
           <nav>
             <Link to="/login">Login</Link>
           </nav>
+          </div>
         </header>
         <nav>
           <ul>
