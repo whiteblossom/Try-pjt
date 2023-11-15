@@ -1,6 +1,7 @@
 // MainPage.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const MainPage = () => {
   const [headlines, setHeadlines] = useState([]);
@@ -16,14 +17,29 @@ const MainPage = () => {
     }));
     setHeadlines(dummyHeadlines);
 
-    // 가상의 날씨 정보
-    const dummyToday = {
-      date: '2023-11-14',
-      time: '12:30 PM',
-      temperature: '25°C',
-      condition: 'Sunny',
+    // OpenWeatherMap API로부터 날씨 정보 가져오기
+    const fetchWeatherData = async () => {
+      try {
+        const apiKey = process.env.REACT_APP_WEATHER_KEY; // OpenWeatherMap에서 발급받은 API 키로 교체
+        const city = 'Seoul'; // 날씨 정보를 가져올 도시로 교체
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+        const response = await axios.get(apiUrl);
+        const iconCode = response.data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
+
+        setToday({
+          date: new Date().toLocaleDateString(),
+          time: new Date().toLocaleTimeString(),
+          temperature: `${Math.floor(response.data.main.temp - 273.15)}°C`,
+          condition: response.data.weather[0].description,
+          iconUrl: iconUrl,
+        });
+      } catch (error) {
+        console.error('날씨 데이터를 불러오는 중 에러 발생:', error);
+      }
     };
-    setToday(dummyToday);
+    fetchWeatherData();
 
     // 가상의 관심 컨테이너 정보
     const dummyInterests = [
@@ -69,10 +85,13 @@ const MainPage = () => {
             <h2>오늘의 정보</h2>
             {today && (
               <>
-                <p>Date: {today.date}</p>
-                <p>Time: {today.time}</p>
-                <p>Temperature: {today.temperature}</p>
-                <p>Condition: {today.condition}</p>
+                <p>{today.date}</p>
+                <p>{today.time}</p>
+                <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {today.iconUrl && <img src={today.iconUrl} alt="날씨 아이콘" style={{ width: '80px', height: '80px'}} />}
+      <span>{today.temperature}</span>
+      <span>{today.condition}</span>
+    </p>
               </>
             )}
           </div>
