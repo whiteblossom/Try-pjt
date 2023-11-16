@@ -10,7 +10,6 @@ import './App.css';
 import SearchPage from './component/SearchPage';
 import CategoryPage from './component/CategoryPage';
 
-
 const App = () => {
   return (
     <Router>
