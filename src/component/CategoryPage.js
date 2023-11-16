@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+
 const SearchPage = () => {
   const { category_id } = useParams(); // useParams를 사용하여 URL에서 category를 얻습니다.
   const [searchedNews, setSearchedNews] = useState([]);
@@ -19,6 +20,7 @@ const SearchPage = () => {
   return (
     <div>
       <div className="main-container">
+        <div className="left-container">
         <div className="headline-container">
           <h1>{category_id}</h1>
           <ul>
@@ -30,6 +32,7 @@ const SearchPage = () => {
             ))}
           </ul>
         </div>
+      </div>
       </div>
     </div>
   );
