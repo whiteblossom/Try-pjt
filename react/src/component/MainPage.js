@@ -108,9 +108,7 @@ const MainPage = () => {
             )}
             <div className="App">
               <header className="App-header">
-                <h1>{user.id}</h1>
-                <h1>{user.username}</h1>
-                <h1>{user.password}</h1>
+                <h1>{user}</h1>
               </header>
             </div>
           </div>

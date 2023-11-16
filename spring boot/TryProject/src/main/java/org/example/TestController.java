@@ -5,15 +5,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class TestController {
 
     @PostMapping("/api/users")
-    public User user(){
+    public String user(){
         System.out.println("UserApiController 진입");
 
         User user = new User(1,"길동","1234");
 
-        return user;
+        return "{aa:1}";
     }
+
+//    @PostMapping("/api/users2")
+//    public List<User> user2(){
+//        System.out.println("UserApiController 진입");
+//
+//        User user = new User(1,"길동","1234");
+//        ArrayList list = new ArrayList<>() ;
+//        list.add(user);
+//        return list;
+//    }
 }
