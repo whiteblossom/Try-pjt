@@ -14,19 +14,22 @@ const SearchPage = () => {
       content: `검색된 뉴스 내용 ${index + 1}`,
     }));
     setSearchedNews(dummySearchedNews);
-  }, [searchKeyword]);
-
-  const handleSearch = () => {
-    // 검색 버튼 클릭 시 호출되는 함수
-    // 검색 결과를 업데이트하고, 필요한 경우 API 등을 사용하여 실제 검색 기능을 구현할 수 있습니다.
-    setSearchedNews(/* API 호출 등으로 검색된 결과 업데이트 */);
-  };
+  }, []);
 
   return (
     <div>
       <div className="main-container">
         <div className="headline-container">
-          <h1>{searchKeyword}</h1>
+          <h1> {searchKeyword}</h1>
+          <div>
+            <input
+              type="text"
+              placeholder="검색어를 입력하세요"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+            <button type="button">검색</button>
+          </div>
           <ul>
             {searchedNews.map((news) => (
               <li key={news.id}>

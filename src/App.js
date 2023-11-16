@@ -7,7 +7,8 @@ import LoginPage from './component/LoginPage';
 import SignupPage from './component/SignupPage';
 import MyPage from './component/MyPage';
 import './App.css';
-import SearchPage from './component/SearchPage';  // SearchPage를 import
+import SearchPage from './component/SearchPage';
+import CategoryPage from './component/CategoryPage';
 
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/category/:category_id" element={<CategoryPage/>} />
           </Routes>
         </div>
         <div className="footer">
