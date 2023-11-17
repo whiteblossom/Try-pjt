@@ -12,6 +12,6 @@ public interface ArticleMapper {
     @Select("SELECT * FROM Article")
     ArrayList<Article> findAll();
 
-    @Select("SELECT title FROM news.article ORDER BY views DESC LIMIT 10")
+    @Select("SELECT * FROM news.article ORDER BY views DESC LIMIT 10")
     ArrayList<Article>  headline();
 }

@@ -103,16 +103,7 @@ const MainPage = () => {
     </p>
               </>
             )}
-            <div className="App">
-              <header className="App-header">
-              <h2>User List</h2>
-              <ul>
-                {articles.map(article => (
-                <li key={article.article_id}>{article.article_id}</li>
-                ))}
-              </ul>
-              </header>
-            </div>
+            
           </div>
         </div>
       </div>

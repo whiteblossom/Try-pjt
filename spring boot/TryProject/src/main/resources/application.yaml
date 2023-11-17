@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mysql://210.110.33.222:3306/news
+    url: jdbc:mysql://localhost:3306/news
+    #url: jdbc:mysql://210.110.33.222:3306/news
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: 'KTY'
+    username: 'root'
+    #username: 'KTY'
     password: '0000'
 mybatis:
   mapper-locations: classpath:mapper/*.xml
