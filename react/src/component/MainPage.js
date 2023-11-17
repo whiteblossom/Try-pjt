@@ -2,14 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Db from 'axios';
-
 
 const MainPage = () => {
   const [headlines, setHeadlines] = useState([]);
   const [today, setToday] = useState(null);
   const [interests, setInterests] = useState([]);
-  const [user,setUser]=useState("");
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // 가상의 헤드라인 뉴스 목록
@@ -20,13 +18,16 @@ const MainPage = () => {
     }));
     setHeadlines(dummyHeadlines);
 
-    Db.post("/api/users").then((response)=>{
-      if(response.data){
-        setUser(response.data);
-      }else{
-        alert("failed to");
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('/api/users/all');
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
       }
-    });
+    };
+    fetchUsers();
+
 
     // OpenWeatherMap API로부터 날씨 정보 가져오기
     const fetchWeatherData = async () => {
@@ -108,7 +109,12 @@ const MainPage = () => {
             )}
             <div className="App">
               <header className="App-header">
-                <h1>{user}</h1>
+              <h2>User List</h2>
+              <ul>
+                {users.map(user => (
+                <li key={user.user_id}>{user.user_id}</li>
+                ))}
+              </ul>
               </header>
             </div>
           </div>

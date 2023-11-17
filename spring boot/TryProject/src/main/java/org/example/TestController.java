@@ -20,13 +20,4 @@ public class TestController {
         return "{aa:1}";
     }
 
-//    @PostMapping("/api/users2")
-//    public List<User> user2(){
-//        System.out.println("UserApiController 진입");
-//
-//        User user = new User(1,"길동","1234");
-//        ArrayList list = new ArrayList<>() ;
-//        list.add(user);
-//        return list;
-//    }
 }
