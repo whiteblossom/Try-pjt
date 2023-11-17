@@ -1,7 +1,9 @@
 package org.example;
 
+import org.example.domain.Article;
 import org.example.domain.User;
 import org.example.mappers.UserMapper;
+import org.example.mappers.ArticleMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,18 +15,20 @@ public class Main implements CommandLineRunner{
     //톰캣도 구동됨
 
     private final UserMapper userMapper;
+    private final ArticleMapper articleMapper;
 
-    public Main(UserMapper userMapper) {
+    public Main(UserMapper userMapper,ArticleMapper articleMapper) {
         this.userMapper = userMapper;
+        this.articleMapper = articleMapper;
     }
-
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
 
+
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(this.userMapper.findAll());
+        System.out.println(this.articleMapper.headline());
         System.out.println(this.userMapper.findById("KTY"));
     }
 }

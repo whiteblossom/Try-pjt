@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import org.example.domain.User;
 import org.example.mappers.UserMapper;
@@ -24,10 +24,5 @@ public class UserController {
     @GetMapping("/all")
     public ArrayList<User> getAllUsers() {
         return userMapper.findAll();
-    }
-
-    @GetMapping("/{userId}")
-    public User getUserById(@PathVariable("userId") String userId) {
-        return userMapper.findById(userId);
     }
 }

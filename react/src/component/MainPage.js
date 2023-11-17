@@ -4,29 +4,25 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const MainPage = () => {
-  const [headlines, setHeadlines] = useState([]);
   const [today, setToday] = useState(null);
   const [interests, setInterests] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [articles, setAritcles] = useState([]);
+  const [headlines, setHeadlines] = useState([]);
 
   useEffect(() => {
-    // 가상의 헤드라인 뉴스 목록
-    const dummyHeadlines = Array.from({ length: 10 }, (_, index) => ({
-      id: index + 1,
-      title: `헤드라인 뉴스 ${index + 1}`,
-      content: `헤드라인 뉴스 내용 ${index + 1}`,
-    }));
-    setHeadlines(dummyHeadlines);
 
-    const fetchUsers = async () => {
+    const fetchArticles = async () => {
       try {
-        const response = await axios.get('/api/users/all');
-        setUsers(response.data);
+        const article = await axios.get('/api/articles/all');
+        const headline = await axios.get('/api/articles/headline');
+        setAritcles(article.data);
+        setHeadlines(headline.data);
+
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error', error);
       }
     };
-    fetchUsers();
+    fetchArticles();
 
 
     // OpenWeatherMap API로부터 날씨 정보 가져오기
@@ -111,8 +107,8 @@ const MainPage = () => {
               <header className="App-header">
               <h2>User List</h2>
               <ul>
-                {users.map(user => (
-                <li key={user.user_id}>{user.user_id}</li>
+                {articles.map(article => (
+                <li key={article.article_id}>{article.article_id}</li>
                 ))}
               </ul>
               </header>
