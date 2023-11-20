@@ -72,7 +72,8 @@ const MainPage = () => {
               {headlines.map((headline) => (
                 <li key={headline.id}>
                   {/* Link를 사용하여 해당 기사의 상세 페이지로 이동 */}
-                  <Link to={`/detail/${headline.id}`}>{headline.title}</Link>
+                  <Link to={`/detail/${headline.article_id}`} onClick={() => console.log(headline.article_id)}>
+{headline.title}</Link>
                 </li>
               ))}
             </ul>

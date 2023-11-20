@@ -5,23 +5,28 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 const DetailPage = () => {
-  const { id } = useParams();
-  const [news, setNews] = useState(null);
+  const { article_id } = useParams();
+  const [news, setDetailNews] = useState([]);
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
 
   useEffect(() => {
-    // 여기에 데이터 가져오는 로직을 추가하세요.
-    const dummyNews = [
-      { id: 1, title: '헤드라인 뉴스 1', content: '헤드라인 뉴스 내용 1', journalist: '기자 이름 1', date: '2023-11-15', views: 100 },
-      { id: 2, title: '헤드라인 뉴스 2', content: '헤드라인 뉴스 내용 2', journalist: '기자 이름 2', date: '2023-11-16', views: 150 },
-      { id: 3, title: '헤드라인 뉴스 3', content: '헤드라인 뉴스 내용 3', journalist: '기자 이름 3', date: '2023-11-17', views: 120 },
-    ];
+    const fetchDetailNews = async () => {
+      try {
+        const response = await fetch(`/api/articles/detail/${article_id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch detail news');
+        }
 
-    const selectedNews = dummyNews.find((item) => item.id === parseInt(id));
-    setNews(selectedNews);
-  }, [id]);
+        const data = await response.json();
+        setDetailNews(data);
+      } catch (error) {
+        console.error('Error fetching detail news:', error.message);
+      }
+    };
 
+    fetchDetailNews();
+  }, [article_id]);
   if (!news) {
     return <div>Loading...</div>;
   }
