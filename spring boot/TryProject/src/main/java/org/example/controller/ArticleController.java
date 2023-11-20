@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.example.domain.Article;
 import org.example.mappers.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class ArticleController {
         return articleMapper.headline();
     }
 
+    @GetMapping("/detail/{article_id}")
+    public ArrayList<Article> getArticles(@PathVariable("article_id") int article_id) {
+        return articleMapper.findArticle(article_id);
+    }
     @GetMapping("/category/{category_id}")
     public ArrayList<Article> getArticlesByCategory(@PathVariable("category_id") int category_id) {
         return articleMapper.findArticlesByCategory(category_id);

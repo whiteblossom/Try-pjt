@@ -14,10 +14,6 @@ const DetailPage = () => {
     const fetchDetailNews = async () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch detail news');
-        }
-
         const data = await response.json();
         setDetailNews(data);
       } catch (error) {
@@ -54,6 +50,8 @@ const DetailPage = () => {
     <div className="main-container">
       <div className="left-container">
         <h1 id="title">{news.title}</h1>
+        {console.log(news.article_id)}
+        {console.log(news.title)}
         <small>{news.journalist}</small>
         <br />
         <small>{news.date}</small>

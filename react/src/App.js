@@ -42,7 +42,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/detail/:article_id" element={<DetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/mypage" element={<MyPage />} />

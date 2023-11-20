@@ -19,6 +19,6 @@ public class Article {
     private int views;
     private int likes;
     private int dislikes;
-    private LocalDateTime writeDate;
+    private LocalDateTime write_Date;
     
 }

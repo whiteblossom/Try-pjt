@@ -11,18 +11,22 @@ const CategoryPage = () => {
       try {
         const response = await fetch(`/api/articles/category/${category_id}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch category news');
+          throw new Error('카테고리 뉴스를 가져오는 데 실패했습니다');
         }
 
         const data = await response.json();
         setCategoryNews(data);
       } catch (error) {
-        console.error('Error fetching category news:', error.message);
+        console.error('카테고리 뉴스를 가져오는 중 오류 발생:', error.message);
       }
     };
 
     fetchCategoryNews();
   }, [category_id]);
+
+  const handleClick = (id) => {
+    console.log(id);
+  };
 
   return (
     <div>
@@ -33,7 +37,9 @@ const CategoryPage = () => {
             <ul>
               {categoryNews.map((news) => (
                 <li key={news.id}>
-                  <Link to={`/detail/${news.id}`}>{news.title}</Link>
+                  <Link to={`/detail/${news.article_id}`} onClick={() => handleClick(news.article_id)}>
+                    {news.title}
+                  </Link>
                 </li>
               ))}
             </ul>

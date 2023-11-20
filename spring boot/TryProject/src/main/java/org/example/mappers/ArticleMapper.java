@@ -13,8 +13,17 @@ public interface ArticleMapper {
     ArrayList<Article> findAll();
 
     @Select("SELECT * FROM news.article ORDER BY views DESC LIMIT 10")
-    ArrayList<Article>  headline();
+    ArrayList<Article> headline();
 
-    @Select("SELECT * FROM Article WHERE category_id = #{category_id}")
+    @Select("SELECT * FROM Article WHERE article_id = #{article_id}")
+    ArrayList<Article> findArticle(@Param("article_id") int article_id);
+
+    @Select("SELECT a.*, c.category as category_name FROM Article a " +
+            "JOIN Category c ON a.category_id = c.category_id " +
+            "WHERE a.category_id = #{category_id}")
     ArrayList<Article> findArticlesByCategory(@Param("category_id") int category_id);
+
+    @Select("SELECT a.*, c.category as category_name FROM Article a " +
+            "JOIN Category c ON a.category_id = c.category_id")
+    ArrayList<Article> findArticlesWithCategory();
 }
