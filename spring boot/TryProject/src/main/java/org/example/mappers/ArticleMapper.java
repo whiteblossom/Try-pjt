@@ -23,7 +23,7 @@ public interface ArticleMapper {
             "WHERE a.category_id = #{category_id}")
     ArrayList<Article> findArticlesByCategory(@Param("category_id") int category_id);
 
-    @Select("SELECT a.*, c.category as category_name FROM Article a " +
-            "JOIN Category c ON a.category_id = c.category_id")
-    ArrayList<Article> findArticlesWithCategory();
+    @Select("SELECT category FROM Category WHERE category_id = #{category_id}")
+    String findCategoryNameById(@Param("category_id") int category_id);
+
 }

@@ -37,8 +37,16 @@ public class ArticleController {
     public ArrayList<Article> getArticles(@PathVariable("article_id") int article_id) {
         return articleMapper.findArticle(article_id);
     }
+
     @GetMapping("/category/{category_id}")
     public ArrayList<Article> getArticlesByCategory(@PathVariable("category_id") int category_id) {
-        return articleMapper.findArticlesByCategory(category_id);
+        ArrayList<Article> articles = articleMapper.findArticlesByCategory(category_id);
+        String categoryName = articleMapper.findCategoryNameById(category_id);
+
+        // 각 기사에 카테고리 이름 설정
+        articles.forEach(article -> article.setCategory_name(categoryName));
+
+        return articles;
     }
+
 }

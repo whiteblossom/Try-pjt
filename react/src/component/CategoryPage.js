@@ -1,10 +1,9 @@
-// CategoryPage.js
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 const CategoryPage = () => {
   const { category_id } = useParams();
-  const [categoryNews, setCategoryNews] = useState([]);
+  const [categoryData, setCategoryData] = useState({ name: "", news: [] });
 
   useEffect(() => {
     const fetchCategoryNews = async () => {
@@ -15,7 +14,7 @@ const CategoryPage = () => {
         }
 
         const data = await response.json();
-        setCategoryNews(data);
+        setCategoryData({ name: data.length > 0 ? data[0].category_name : "", news: data });
       } catch (error) {
         console.error('카테고리 뉴스를 가져오는 중 오류 발생:', error.message);
       }
@@ -33,9 +32,9 @@ const CategoryPage = () => {
       <div className="main-container">
         <div className="left-container">
           <div className="headline-container">
-            <h1>{category_id}</h1>
+            <h1>{categoryData.name}</h1>
             <ul>
-              {categoryNews.map((news) => (
+              {categoryData.news.map((news) => (
                 <li key={news.id}>
                   <Link to={`/detail/${news.article_id}`} onClick={() => handleClick(news.article_id)}>
                     {news.title}
