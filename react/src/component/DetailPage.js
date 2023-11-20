@@ -14,8 +14,8 @@ const DetailPage = () => {
     const fetchDetailNews = async () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
-        const data = await response.json();
-        NewData = { ...news , data } ;
+        const articles = await response.json();
+        NewData = { ...news , articles } ;
         setDetailNews(NewData);
         console.log(NewData);
       } catch (error) {
@@ -54,25 +54,25 @@ const DetailPage = () => {
     <div className="main-container">
       <div className="left-container">
         {news.articles && news.articles.map((article) => (
-          <li key={article.id}>
-            <h1 id="title">{article.data.title}</h1>
-            <small>{article.journalist}</small>
+          <div key={article.article_id}>
+            <h1 id="title">{article.title}</h1>
+            <small>{article.reporter_Name}</small>
             <br />
-            <small>{article.data.date}</small>
+            <small>{article.write_Date}</small>
             <br />
             <small>조회수: {article.views}</small>
             <p>{article.content}</p>
-          </li>
-        ))}
         {/* 좋아요와 싫어요 버튼 */}
         <div className="standard">
-          <button className="like" onClick={() => setLikes(likes + 1)}>
-            <img src={likeImageUrl} alt="추천" /><br />{likes}
+          <button className="like" onClick={() => setLikes(article.likes + 1)}>
+            <img src={likeImageUrl} alt="추천" /><br />{article.likes}
           </button>
-          <button className="dislike" onClick={() => setDislikes(dislikes + 1)}>
-            <img src={dislikeImageUrl} alt="비추천" /><br />{dislikes}
+          <button className="dislike" onClick={() => setDislikes(article.dislikes + 1)}>
+            <img src={dislikeImageUrl} alt="비추천" /><br />{article.dislikes}
           </button>
         </div>
+        </div>
+        ))}
         <div className="interest-container">
           {/* 슬라이더 */}
           <Slider {...sliderSettings}>
