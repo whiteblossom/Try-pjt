@@ -30,5 +30,6 @@ public class Main implements CommandLineRunner{
     public void run(String... args) throws Exception {
         System.out.println(this.articleMapper.headline());
         System.out.println(this.userMapper.findById("KTY"));
+        System.out.println(this.articleMapper.findArticlesByCategory(1));
     }
 }

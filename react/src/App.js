@@ -30,18 +30,18 @@ const App = () => {
         </header>
         <nav>
           <ul>
-            <li><Link to="/category/politics">Politics</Link></li>
-            <li><Link to="/category/economy">Economy</Link></li>
-            <li><Link to="/category/society">Society</Link></li>
-            <li><Link to="/category/it">IT</Link></li>
-            <li><Link to="/category/world">World</Link></li>
-            <li><Link to="/category/culture">Culture</Link></li>
+            <li><Link to="/category/1">Culture</Link></li>
+            <li><Link to="/category/2">Economy</Link></li>
+            <li><Link to="/category/3">Politics</Link></li>
+            <li><Link to="/category/4">Science</Link></li>
+            <li><Link to="/category/5">Social</Link></li>
+            <li><Link to="/category/6">World</Link></li>
           </ul>
         </nav>
         <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/search" element={<SearchPage />} /> {/* SearchPage 추가 */}
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />

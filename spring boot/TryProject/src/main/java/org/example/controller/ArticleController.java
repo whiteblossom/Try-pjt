@@ -30,4 +30,9 @@ public class ArticleController {
     public ArrayList<Article> getArticleById() {
         return articleMapper.headline();
     }
+
+    @GetMapping("/category/{category_id}")
+    public ArrayList<Article> getArticlesByCategory(@PathVariable("category_id") int category_id) {
+        return articleMapper.findArticlesByCategory(category_id);
+    }
 }

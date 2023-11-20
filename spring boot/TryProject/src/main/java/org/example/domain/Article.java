@@ -11,19 +11,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Article {
-    private int articleId;
+    private int article_id;
     private String title;
     private String content;
-    private int categoryId;
+    private int category_id;
     private String reporterName;
     private int views;
     private int likes;
     private int dislikes;
     private LocalDateTime writeDate;
-
-    public Article(int articleId, String title, int views) {
-        this.articleId = articleId;
-        this.title = title;
-        this.views = views;
-    }
+    
 }
