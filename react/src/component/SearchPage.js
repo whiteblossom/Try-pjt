@@ -1,40 +1,41 @@
 // SearchPage.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const SearchPage = () => {
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [searchedNews, setSearchedNews] = useState([]);
+  const { word } = useParams();
+  const [searchKeyword, setSearchKeyword] = useState([]);
 
   useEffect(() => {
     // 가상의 검색된 뉴스 목록
-    const dummySearchedNews = Array.from({ length: 10 }, (_, index) => ({
-      id: index + 1,
-      title: `검색된 뉴스 ${index + 1}`,
-      content: `검색된 뉴스 내용 ${index + 1}`,
-    }));
-    setSearchedNews(dummySearchedNews);
-  }, []);
+    const fetchSearch = async () => {
+      try {
+        const response = await fetch(`/api/articles/search/${word}`);
+      
+        if (!response.ok) {
+          throw new Error('검색에 실패했습니다');
+        }
+        const data = await response.json();
+        setSearchKeyword(data);
+      } catch (error) {
+        console.error('검색실패:', error.message);
+      }
+    };
+
+    fetchSearch();
+  }, [word]);
+
 
   return (
     <div>
       <div className="main-container">
         <div className="headline-container">
-          <h1> {searchKeyword}</h1>
-          <div>
-            <input
-              type="text"
-              placeholder="검색어를 입력하세요"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
-            <button type="button">검색</button>
-          </div>
+          <h1> {word}</h1>
           <ul>
-            {searchedNews.map((news) => (
-              <li key={news.id}>
+            {searchKeyword.map((news) => (
+              <li key={news.article_id}>
                 {/* Link를 사용하여 해당 기사의 상세 페이지로 이동 */}
-                <Link to={`/detail/${news.id}`}>{news.title}</Link>
+                <Link to={`/detail/${news.article_id}`}>{news.title}</Link>
               </li>
             ))}
           </ul>

@@ -17,7 +17,6 @@ const DetailPage = () => {
         const articles = await response.json();
         NewData = { ...news , articles } ;
         setDetailNews(NewData);
-        console.log(NewData);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
       }

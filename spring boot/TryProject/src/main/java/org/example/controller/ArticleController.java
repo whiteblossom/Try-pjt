@@ -49,4 +49,9 @@ public class ArticleController {
         return articles;
     }
 
+    @GetMapping("/search/{word}")
+    public ArrayList<Article> searchArticles(@PathVariable("word") String word) {
+        return articleMapper.searchArticle(word);
+    }
+
 }

@@ -28,8 +28,6 @@ public class Main implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(this.articleMapper.headline());
-        System.out.println(this.userMapper.findById("KTY"));
-        System.out.println(this.articleMapper.findArticlesByCategory(1));
+        System.out.println(this.articleMapper.searchArticle("한파"));
     }
 }

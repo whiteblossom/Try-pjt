@@ -26,4 +26,7 @@ public interface ArticleMapper {
     @Select("SELECT category FROM Category WHERE category_id = #{category_id}")
     String findCategoryNameById(@Param("category_id") int category_id);
 
+    @Select("SELECT * FROM article WHERE title LIKE CONCAT('%', #{word}, '%')")
+    ArrayList<Article> searchArticle(@Param("word") String word);
+
 }
