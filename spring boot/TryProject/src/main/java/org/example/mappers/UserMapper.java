@@ -17,11 +17,10 @@ public interface UserMapper {
     @Select("SELECT * FROM User where user_id = #{user_id}")
     User findById(@Param("user_id") String user_id);
 
-<<<<<<< Updated upstream
+
     @Select("SELECT * FROM User WHERE user_id = #{user_id} AND password = #{password}")
     User findByUsernameAndPassword(@Param("user_id") String user_id, @Param("password") String password);
-}
-=======
+
     @Select("SELECT user_id FROM User where user_id = #{user_id}")
     User confirmUser(@Param("user_id") String user_id);
 
@@ -29,4 +28,4 @@ public interface UserMapper {
             "VALUES (#{user.user_id}, #{user.password}, #{user.age}, #{user.gender})")
     void signupUser(@Param("user") User user);
 }
->>>>>>> Stashed changes
+
