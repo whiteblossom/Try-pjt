@@ -29,6 +29,7 @@ const SearchPage = () => {
   return (
     <div>
       <div className="main-container">
+      <div className="left-container">
         <div className="headline-container">
           <h1> {word}</h1>
           <ul>
@@ -39,6 +40,7 @@ const SearchPage = () => {
               </li>
             ))}
           </ul>
+        </div>
         </div>
       </div>
     </div>

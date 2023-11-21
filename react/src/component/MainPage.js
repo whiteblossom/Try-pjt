@@ -1,4 +1,5 @@
-// MainPage.js
+//MainPage.js
+// 로그인되어 있을 경우에만 "오늘의 정보"를 표시
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,26 +7,26 @@ import axios from 'axios';
 const MainPage = () => {
   const [today, setToday] = useState(null);
   const [interests, setInterests] = useState([]);
-  const [articles, setAritcles] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [headlines, setHeadlines] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-
     const fetchArticles = async () => {
       try {
         const article = await axios.get('/api/articles/all');
         const headline = await axios.get('/api/articles/headline');
-        setAritcles(article.data);
+        setArticles(article.data);
         setHeadlines(headline.data);
 
+        //현재 사용자 ID 세션 확인
+        console.log(sessionStorage.getItem('user_id'));
       } catch (error) {
         console.error('Error', error);
       }
     };
     fetchArticles();
 
-
-    // OpenWeatherMap API로부터 날씨 정보 가져오기
     const fetchWeatherData = async () => {
       try {
         const apiKey = process.env.REACT_APP_WEATHER_KEY; // OpenWeatherMap에서 발급받은 API 키로 교체
@@ -49,7 +50,6 @@ const MainPage = () => {
     };
     fetchWeatherData();
 
-    // 가상의 관심 컨테이너 정보
     const dummyInterests = [
       { id: 1, title: '관심 주제 1', description: '기사 제목' },
       { id: 2, title: '관심 주제 2', description: '기사 제목' },
@@ -57,9 +57,21 @@ const MainPage = () => {
       { id: 4, title: '관심 주제 4', description: '기사 제목' },
       { id: 5, title: '관심 주제 5', description: '기사 제목' },
       { id: 6, title: '관심 주제 6', description: '기사 제목' },
-      // 추가적인 관심 주제
     ];
     setInterests(dummyInterests);
+  }, []);
+
+  useEffect(() => {
+    // 로그인 여부를 체크하는 로직 (예: 토큰의 존재 여부 등)
+    const checkLoginStatus = async () => {
+      try {
+        const response = await axios.get('/api/auth/user');
+        setIsLoggedIn(true);
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLoginStatus();
   }, []);
 
   return (
@@ -71,9 +83,7 @@ const MainPage = () => {
             <ul>
               {headlines.map((headline) => (
                 <li key={headline.id}>
-                  {/* Link를 사용하여 해당 기사의 상세 페이지로 이동 */}
-                  <Link to={`/detail/${headline.article_id}`} onClick={() => console.log(headline.article_id)}>
-{headline.title}</Link>
+                  <Link to={`/detail/${headline.article_id}`}>{headline.title}</Link>
                 </li>
               ))}
             </ul>
@@ -93,18 +103,17 @@ const MainPage = () => {
         <div className="right-container">
           <div className="today-container">
             <h2>오늘의 정보</h2>
-            {today && (
+            {isLoggedIn && today && (
               <>
                 <p>{today.date}</p>
                 <p>{today.time}</p>
                 <p style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {today.iconUrl && <img src={today.iconUrl} alt="날씨 아이콘" style={{ width: '80px', height: '80px'}} />}
-      <span>{today.temperature}</span>
-      <span>{today.condition}</span>
-    </p>
+                  {today.iconUrl && <img src={today.iconUrl} alt="날씨 아이콘" style={{ width: '80px', height: '80px'}} />}
+                  <span>{today.temperature}</span>
+                  <span>{today.condition}</span>
+                </p>
               </>
             )}
-            
           </div>
         </div>
       </div>

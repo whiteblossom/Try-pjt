@@ -1,23 +1,42 @@
-// LoginPage.js
 import React, { useState } from 'react';
 import '../css/LoginPage.css';
+import axios from 'axios';
+import { useNavigate  } from 'react-router-dom';
 
-const LoginPage = () => {
-  const [username, setUsername] = useState('');
+const LoginPage = ({ setIsLoggedIn }) => {
+  const [user_id, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(null);
+  const [loginSuccess, setLoginSuccess] = useState(null);
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log('로그인 시도:', { username, password });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('/api/users/login', { user_id, password });
+      console.log('로그인 성공:', response.data);
+      setIsLoggedIn(true);
+      setLoginSuccess('로그인 성공!');
+      setLoginError(null);
+
+       // 로그인 성공 시, 사용자 ID를 sessionStorage에 저장
+       sessionStorage.setItem('user_id', response.data.user_id);
+       navigate('/');
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      setLoginError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      setLoginSuccess(null);
+    }
   };
 
   return (
     <div className="login-container">
       <h1>로그인</h1>
-      <form className="login-form"> {/* Added login-form class to form */}
+      <form className="login-form" onSubmit={handleLogin}>
         <label>
           아이디
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input type="text" value={user_id} onChange={(e) => setUsername(e.target.value)} />
         </label>
         <br />
         <label>
@@ -25,8 +44,10 @@ const LoginPage = () => {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
         <br />
-        <button onClick={handleLogin}>로그인</button>
+        <button type="submit">로그인</button>
       </form>
+      {loginError && <p className="error-message">{loginError}</p>}
+      {loginSuccess && <p className="success-message">{loginSuccess}</p>}
     </div>
   );
 };
