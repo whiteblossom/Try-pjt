@@ -1,11 +1,18 @@
 package org.example.controller;
 
+<<<<<<< Updated upstream
 import jakarta.servlet.http.HttpSession;
 import org.example.domain.User;
 import org.example.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+import org.example.domain.Article;
+import org.example.domain.User;
+import org.example.mappers.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +33,7 @@ public class UserController {
         return userMapper.findAll();
     }
 
+<<<<<<< Updated upstream
     @GetMapping("/{user_id}")
     public User getUserById(@PathVariable String user_id) {
         return userMapper.findById(user_id);
@@ -60,5 +68,16 @@ public class UserController {
                 return ResponseEntity.ok("로그인되지 않음");
             }
         }
+=======
+    @GetMapping("/confirm/{user_id}")
+    public User confirmUser(@PathVariable("user_id") String user_id) {
+        return userMapper.confirmUser(user_id);
+    }
+
+    @PostMapping("/signup")
+    public String signupUser(@RequestBody User user){
+        userMapper.signupUser(user);
+        return "{ \"message\" : \"회원가입되셨습니다.\"}";
+>>>>>>> Stashed changes
     }
 }

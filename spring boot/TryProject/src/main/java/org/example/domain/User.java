@@ -1,11 +1,8 @@
 package org.example.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class User {
 
@@ -14,6 +11,7 @@ public class User {
     private int age;
     private String gender;
 
+<<<<<<< Updated upstream
     public User() {
         // 기본 생성자 추가
     }
@@ -22,4 +20,6 @@ public class User {
         this.user_id = user_id;
         this.password = password;
     }
+=======
+>>>>>>> Stashed changes
 }

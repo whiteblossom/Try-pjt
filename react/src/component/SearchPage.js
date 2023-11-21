@@ -42,6 +42,10 @@ const SearchPage = () => {
           </ul>
         </div>
         </div>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
       </div>
     </div>
   );
