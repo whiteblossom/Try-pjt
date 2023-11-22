@@ -1,7 +1,7 @@
 // App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import axios from 'axios'; // Make sure to import axios
+import axios from 'axios'; 
 import MainPage from './component/MainPage';
 import DetailPage from './component/DetailPage';
 import LoginPage from './component/LoginPage';
@@ -14,19 +14,22 @@ import CategoryPage from './component/CategoryPage';
 
 const App = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 추적하는 state 추가
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+useEffect(() => {
+  // 컴포넌트가 마운트될 때 로그인 상태를 확인
+  const checkLoginStatus = async () => {
+    try {
+      const response =  axios.get('/api/auth/user');
+      //현재 사용자 ID 세션 확인
+      console.log(sessionStorage.getItem('user_id'));
+      if ( sessionStorage.getItem('user_id')!=null ) setIsLoggedIn(true); 
+    } catch (error) { 
+      setIsLoggedIn(false);
+    }
+  };
+  checkLoginStatus();
+}, []);
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때 로그인 상태를 확인
-    const checkLoginStatus = async () => {
-      try {
-        const response = await axios.get('/api/auth/user');
-        setIsLoggedIn(false); //맨처음에 로그아웃 상태
-      } catch (error) { 
-      }
-    };
-    checkLoginStatus();
-  }, []);
   
   const handleLogout = async () => {
     try {
