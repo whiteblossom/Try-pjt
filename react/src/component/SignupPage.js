@@ -39,12 +39,13 @@ const SignupPage = () => {
     } catch (error) {
     }
   };
+
   const handleSignup = async () => {
     // Add your signup logic here, including validation checks
     console.log('회원가입 시도:', { username, password, age, gender });
   
     try {
-      const response = await fetch('/api/users/signup', {
+      const response =   fetch('/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,21 +56,16 @@ const SignupPage = () => {
           age,
           gender,
         }),
-      });
-  
-      /*if (!response.ok) {
-        throw new Error('회원가입에 실패했습니다.');
-      }*/
-  
-      // 회원가입 성공 시 /login 페이지로 이동
-      
-      // 여기에서 필요한 처리를 추가하세요 (예: 리다이렉트, 상태 업데이트 등)
+      }  ); 
+      setTimeout(navigate('/login'), 500 ) ;
+
     } catch (error) {
       console.error('회원가입 실패:', error.message);
       // 실패 시 사용자에게 알림을 추가하거나 다른 처리를 수행하세요
     }
 
-    navigate('/');
+    
+    // return null;
   };
 
   return (

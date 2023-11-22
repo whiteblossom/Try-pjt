@@ -27,7 +27,7 @@
   }
   
   .login-form input {
-    width: 100%; /* Set the width to 100% */
+    width: 95%; /* Set the width to 100% */
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
