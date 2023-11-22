@@ -23,7 +23,12 @@ const MyPage = () => {
   };
 
   // 회원 탈퇴 확인 버튼 클릭 시
-  const handleConfirmWithdrawal = () => {
+  const handleConfirmWithdrawal =  async ()  => {
+
+    
+
+  // Spring Boot 서버에 DELETE 요청 보내기
+  const response = await fetch(`/api/users/delete/${user_id}`);
     // 로그인 상태와 사용자 정보 초기화
     setUserData({
       isLoggedIn: false,

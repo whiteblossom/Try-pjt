@@ -1,6 +1,8 @@
+
 package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.apache.ibatis.annotations.Delete;
 import org.example.domain.User;
 import org.example.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,11 @@ public class UserController {
         userMapper.signupUser(user);
         return "{ \"message\" : \"회원가입되었습니다.\"}";
     }
-
+    @DeleteMapping("/delete")
+    public String DeleteUser(@PathVariable User user) {
+        userMapper.deleteUser(user);
+        return "탈퇴하였습니다";
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
@@ -53,7 +59,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.");
         }
     }
-
     @RestController
     @RequestMapping("/api/auth")
     public class AuthController {
@@ -72,3 +77,5 @@ public class UserController {
         }
     }
 }
+
+
