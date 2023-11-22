@@ -23,28 +23,46 @@ const MyPage = () => {
   };
 
   // 회원 탈퇴 확인 버튼 클릭 시
-  const handleConfirmWithdrawal =  async ()  => {
-
-    
-
-  // Spring Boot 서버에 DELETE 요청 보내기
-  const response = await fetch(`/api/users/delete/${user_id}`);
-    // 로그인 상태와 사용자 정보 초기화
-    setUserData({
-      isLoggedIn: false,
-      userInfo: {},
-    });
-
-    // 세션에서 사용자 아이디 삭제
-    sessionStorage.removeItem('user_id');
-
-     // 모달 닫기 및 페이지 리로드
-     setWithdrawalModalOpen(false);
-     navigate("/");
-     window.location.reload();
-
-    setWithdrawalModalOpen(false);
+  const handleConfirmWithdrawal = async () => {
+    try {
+      // Spring Boot 서버에 DELETE 요청 보내기
+      const response = await fetch(`/api/users/delete/${user_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // 필요한 경우 다른 헤더를 포함시킬 수 있습니다.
+        },
+        // 필요한 경우 요청 본문을 포함시킬 수 있습니다.
+        // body: JSON.stringify({}),
+      });
+  
+      // 응답 상태가 200-299 범위에 있는지 확인하여 성공 여부 판단
+      if (response.ok) {
+        // 로그인 상태와 사용자 정보 초기화
+        setUserData({
+          isLoggedIn: false,
+          userInfo: {},
+        });
+  
+        // 세션에서 사용자 아이디 삭제
+        sessionStorage.removeItem('user_id');
+  
+        // 모달 닫기 및 페이지 리로드
+        setWithdrawalModalOpen(false);
+        navigate("/");
+        window.location.reload();
+      } else {
+        // 성공하지 않은 응답을 처리합니다. 예를 들어 오류 메시지를 표시할 수 있습니다.
+        console.error('사용자 삭제에 실패했습니다. 상태:', response.status);
+        // 이 오류 케이스를 적절하게 처리하도록 조치할 수 있습니다.
+      }
+    } catch (error) {
+      console.error('탈퇴 중 에러 발생:', error);
+      // fetch 중에 다른 오류가 발생할 경우를 처리합니다.
+      // 이 오류 케이스를 적절하게 처리하도록 조치할 수 있습니다.
+    }
   };
+  
 
   // 모달 닫기 버튼 클릭 시
   const handleCloseModal = () => {

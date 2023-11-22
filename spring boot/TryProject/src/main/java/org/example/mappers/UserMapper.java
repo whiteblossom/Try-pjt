@@ -27,5 +27,5 @@ public interface UserMapper {
     void signupUser(@Param("user") User user);
 
     @Delete("DELETE FROM user WHERE user_id = #{user_id}")
-    User deleteUser(@Param("user_id") User user_id);
+    void deleteUser(@Param("user_id") String user_id);
 }

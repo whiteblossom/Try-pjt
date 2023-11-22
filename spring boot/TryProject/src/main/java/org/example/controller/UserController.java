@@ -41,10 +41,9 @@ public class UserController {
         userMapper.signupUser(user);
         return "{ \"message\" : \"회원가입되었습니다.\"}";
     }
-    @DeleteMapping("/delete")
-    public String DeleteUser(@PathVariable User user) {
-        userMapper.deleteUser(user);
-        return "탈퇴하였습니다";
+    @DeleteMapping("/delete/{user_id}")
+    public void deleteUser(@PathVariable("user_id") String user_id) {
+        userMapper.deleteUser(user_id);
     }
 
     @PostMapping("/login")

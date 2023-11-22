@@ -43,7 +43,12 @@ const SignupPage = () => {
   const handleSignup = async () => {
     // Add your signup logic here, including validation checks
     console.log('회원가입 시도:', { username, password, age, gender });
-  
+    if (password !== confirmPassword) {
+      // 사용자에게 오류 메시지 표시
+      alert('비밀번호가 일치하지 않습니다.');
+      // 알림이나 다른 UI 요소를 사용하여 사용자에게 오류 메시지를 표시할 수도 있습니다.
+      return;
+    }
     try {
       const response =   fetch('/api/users/signup', {
         method: 'POST',
@@ -100,7 +105,10 @@ const SignupPage = () => {
         <br />
         <label>
           성별
-          <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} />
+          <p>
+          <input className='gender' type="radio" name="gender" value="M"checked onChange={(e) => setGender(e.target.value)} />남자
+          <input className='gender' type="radio" name="gender" value="F" onChange={(e) => setGender(e.target.value)} />여자
+          </p>
         </label>
         <br />
         <button onClick={handleSignup}>
