@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping("/signup")
     public String signupUser(@RequestBody User user) {
         userMapper.signupUser(user);
-        return "{ \"message\" : \"회원가입되셨습니다.\"}";
+        return "{ \"message\" : \"회원가입되었습니다.\"}";
     }
 
 
