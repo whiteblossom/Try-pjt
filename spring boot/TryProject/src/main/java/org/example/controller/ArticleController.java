@@ -1,9 +1,7 @@
 package org.example.controller;
 
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.example.domain.Article;
-import org.example.mappers.ArticleMapper;
+import org.example.model.Article;
+import org.example.mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +46,6 @@ public class ArticleController {
 
         return articles;
     }
-
     @GetMapping("/search/{word}")
     public ArrayList<Article> searchArticles(@PathVariable("word") String word) {
         return articleMapper.searchArticle(word);

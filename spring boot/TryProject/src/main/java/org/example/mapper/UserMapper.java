@@ -1,9 +1,7 @@
-
-package org.example.mappers;
+package org.example.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.example.domain.User;
-import org.springframework.context.annotation.Import;
+import org.example.model.User;
 
 import java.util.ArrayList;
 

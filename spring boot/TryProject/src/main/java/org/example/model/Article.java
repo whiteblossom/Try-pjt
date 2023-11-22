@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.model;
 
 
 import lombok.AllArgsConstructor;
@@ -16,11 +16,7 @@ public class Article {
     private String content;
     private int category_id;
     private String reporter_Name;
-    private int views;
-    private int likes;
-    private int dislikes;
     private LocalDateTime write_Date;
-
     private String category_name;
 
     public String getCategory_name() {

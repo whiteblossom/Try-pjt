@@ -1,9 +1,7 @@
 package org.example;
 
-import org.example.domain.Article;
-import org.example.domain.User;
-import org.example.mappers.UserMapper;
-import org.example.mappers.ArticleMapper;
+import org.example.mapper.UserMapper;
+import org.example.mapper.ArticleMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

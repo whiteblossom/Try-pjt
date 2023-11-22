@@ -2,9 +2,8 @@
 package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.apache.ibatis.annotations.Delete;
-import org.example.domain.User;
-import org.example.mappers.UserMapper;
+import org.example.model.User;
+import org.example.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +21,6 @@ public class UserController {
     public UserController(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
-
-    @GetMapping("/all")
-    public ArrayList<User> getAllUsers() {
-        return userMapper.findAll();
-    }
-
     @GetMapping("/{user_id}")
     public User getUserById(@PathVariable String user_id) {
         return userMapper.findById(user_id);
@@ -49,29 +42,22 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         User foundUser = userMapper.findByUsernameAndPassword(user.getUser_id(), user.getPassword());
-
         if (foundUser != null) {
-            // 로그인 성공
-            return ResponseEntity.ok(foundUser);
+            return ResponseEntity.ok(foundUser);// 로그인 성공
         } else {
-            // 로그인 실패
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 아이디 또는 비밀번호가 올바르지 않습니다.");// 로그인 실패
         }
     }
     @RestController
     @RequestMapping("/api/auth")
     public class AuthController {
-
         @GetMapping("/user")
         public ResponseEntity<Object> checkLoginStatus(HttpSession session) {
             User user = (User) session.getAttribute("user_id");
-
             if (user != null) {
-                // 로그인 상태
-                return ResponseEntity.ok(user);
+                return ResponseEntity.ok(user); // 로그인 상태
             } else {
-                // 비로그인 상태
-                return ResponseEntity.ok("로그인되지 않음");
+                return ResponseEntity.ok("로그인되지 않음"); // 비로그인 상태
             }
         }
     }

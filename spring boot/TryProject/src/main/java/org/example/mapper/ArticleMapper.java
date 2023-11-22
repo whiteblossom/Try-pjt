@@ -1,9 +1,9 @@
-package org.example.mappers;
+package org.example.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.example.domain.Article;
+import org.example.model.Article;
 
 import java.util.ArrayList;
 
