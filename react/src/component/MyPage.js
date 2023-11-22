@@ -1,57 +1,86 @@
-// MyPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import '../css/MyPage.css'; 
+import '../css/MyPage.css';
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
     isLoggedIn: true,
     userInfo: {
-      id: sessionStorage.getItem('user_id'),
-      age: 25,
-      gender: '남성',
-      interests: ['프로그래밍', '기술', '스포츠', '음악', '영화', '책', '여행', '음식', '미술', '과학'],
-      recentNews: [
-        '뉴스 1',
-        '뉴스 2',
-        '뉴스 3',
-        '뉴스 4',
-        '뉴스 5',
-        '뉴스 6',
-        '뉴스 7',
-        '뉴스 8',
-        '뉴스 9',
-        '뉴스 10',
-      ],
+      user_id: null,  // 사용자 아이디
+      age: null,      // 사용자 나이
+      gender: '',     // 사용자 성별
+      interests: [],  // 사용자 관심사
+      recentNews: [], // 사용자 최근 뉴스
     },
   });
   const [isWithdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
 
+  // 회원 탈퇴 버튼 클릭 시 모달 열기
   const handleWithdrawal = () => {
     setWithdrawalModalOpen(true);
   };
 
+  // 회원 탈퇴 확인 버튼 클릭 시
   const handleConfirmWithdrawal = () => {
+    // 로그인 상태와 사용자 정보 초기화
     setUserData({
       isLoggedIn: false,
       userInfo: {},
     });
+
+    // 세션에서 사용자 아이디 삭제
+    sessionStorage.removeItem('user_id');
+
+     // 모달 닫기 및 페이지 리로드
+     setWithdrawalModalOpen(false);
+     navigate("/");
+     window.location.reload();
+
     setWithdrawalModalOpen(false);
   };
 
+  // 모달 닫기 버튼 클릭 시
   const handleCloseModal = () => {
     setWithdrawalModalOpen(false);
   };
 
-  if (!userData.isLoggedIn) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    // 세션에서 사용자 아이디 가져오기
+    const user_id = sessionStorage.getItem('user_id');
 
+    // 로그인 상태이면서 사용자 아이디가 있는 경우에만 실행
+    if (userData.isLoggedIn && user_id) {
+      // 서버에서 사용자 정보 가져오기
+      fetch(`/api/users/${user_id}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            console.log('Fetched user data:', data);
 
-  const { id: user_id, age, gender, interests, recentNews } = userData.userInfo;
+            // 가져온 데이터로 사용자 정보 업데이트
+            const updatedUserInfo = {
+              ...data,
+              interests: data.interests || [], //아직 빈 배열
+              recentNews: data.recentNews || [], //아직 빈 배열
+            };
+
+            setUserData({
+              isLoggedIn: true,
+              userInfo: updatedUserInfo,
+            });
+          } else {
+            console.error('사용자 정보가 비어있습니다.');
+          }
+        })
+        .catch(error => {
+          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+        });
+    }
+  }, [userData.isLoggedIn]);
+
+  const { user_id, age, gender, interests = [], recentNews = [] } = userData.userInfo;
 
   return (
     <div className="my-page-container">
@@ -71,7 +100,7 @@ const MyPage = () => {
         <button onClick={handleWithdrawal}>회원 탈퇴</button>
       </div>
 
-      {/* 회원탈퇴 확인 모달 */}
+      {/* 회원 탈퇴 확인 모달 */}
       <Modal
         isOpen={isWithdrawalModalOpen}
         onRequestClose={handleCloseModal}
