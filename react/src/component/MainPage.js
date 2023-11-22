@@ -9,7 +9,7 @@ const MainPage = () => {
   const [interests, setInterests] = useState([]);
   const [articles, setArticles] = useState([]);
   const [headlines, setHeadlines] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -18,9 +18,6 @@ const MainPage = () => {
         const headline = await axios.get('/api/articles/headline');
         setArticles(article.data);
         setHeadlines(headline.data);
-
-        //현재 사용자 ID 세션 확인
-        console.log(sessionStorage.getItem('user_id'));
       } catch (error) {
         console.error('Error', error);
       }
@@ -60,7 +57,7 @@ const MainPage = () => {
     ];
     setInterests(dummyInterests);
   }, []);
-
+/*
   useEffect(() => {
     // 로그인 여부를 체크하는 로직 (예: 토큰의 존재 여부 등)
     const checkLoginStatus = async () => {
@@ -73,7 +70,7 @@ const MainPage = () => {
     };
     checkLoginStatus();
   }, []);
-
+*/
   return (
     <div>
       <div className="main-container">
@@ -103,7 +100,7 @@ const MainPage = () => {
         <div className="right-container">
           <div className="today-container">
             <h2>오늘의 정보</h2>
-            {isLoggedIn && today && (
+            {today && (
               <>
                 <p>{today.date}</p>
                 <p>{today.time}</p>

@@ -60,7 +60,7 @@ public class UserController {
 
         @GetMapping("/user")
         public ResponseEntity<Object> checkLoginStatus(HttpSession session) {
-            User user = (User) session.getAttribute("user");
+            User user = (User) session.getAttribute("user_id");
 
             if (user != null) {
                 // 로그인 상태
