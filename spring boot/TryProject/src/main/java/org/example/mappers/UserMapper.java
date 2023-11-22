@@ -1,9 +1,8 @@
+
+
 package org.example.mappers;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.example.domain.User;
 import org.springframework.context.annotation.Import;
 
@@ -27,5 +26,9 @@ public interface UserMapper {
     @Insert("INSERT INTO User (user_id, password, age, gender) " +
             "VALUES (#{user.user_id}, #{user.password}, #{user.age}, #{user.gender})")
     void signupUser(@Param("user") User user);
+
+    @Delete("DELETE FROM user WHERE user_id = #{user_id}")
+    User deleteUser(@Param("user_id") User user_id);
 }
+
 
