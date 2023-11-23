@@ -15,8 +15,8 @@ public class Article {
     private String title;
     private String content;
     private int category_id;
-    private String reporter_Name;
-    private LocalDateTime write_Date;
+    private String reporter_name;
+    private LocalDateTime write_date;
     private String category_name;
 
     public String getCategory_name() {

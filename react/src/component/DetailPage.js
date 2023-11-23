@@ -9,21 +9,56 @@ const DetailPage = () => {
   const [news, setDetailNews] = useState({ articles: [], content: '' });
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
+  const [views, setViews] = useState(0); // 추가된 부분
   let NewData ; 
+  const user_id = sessionStorage.getItem('user_id');
+
   useEffect(() => {
     const fetchDetailNews = async () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
-        NewData = { ...news , articles } ;
+        NewData = { ...news , articles };
         setDetailNews(NewData);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
       }
     };
 
+    const fetchArticleViews = async () => {
+      try {
+        const response = await fetch(`/api/articles/${article_id}/views`);
+        const articleViews = await response.json();
+        setViews(articleViews); // 조회수 업데이트
+      } catch (error) {
+        console.error('Error fetching article views:', error.message);
+      }
+    };
+    
+    const addLogData = async () => {
+      try {
+        console.log('User ID:', user_id);
+        console.log('Article ID:', article_id);
+    
+        if (user_id) {
+          // user_id가 존재할 때만 fetch 요청 수행
+          await fetch(`/api/articles/${article_id}/read?user_id=${user_id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        } else {
+          console.log('로그인 상태가 아닙니다.');
+        }
+      } catch (error) {
+        console.error('Error adding log data:', error.message);
+      }
+    };
     fetchDetailNews();
-  }, [article_id]);
+    fetchArticleViews(); // 조회수를 가져오는 API 호출
+    addLogData();  // addLogData 호출
+  }, [article_id, user_id]);
 
   if (!news) {
     return <div>Loading...</div>;
@@ -55,11 +90,11 @@ const DetailPage = () => {
         {news.articles && news.articles.map((article) => (
           <div key={article.article_id}>
             <h1 id="title">{article.title}</h1>
-            <small>{article.reporter_Name}</small>
+            <small>{article.reporter_name}</small>
             <br />
-            <small>{article.write_Date}</small>
+            <small>{article.write_date}</small>
             <br />
-            <small>조회수: {article.views}</small>
+            <small>조회수: {views}</small>
             <p>{article.content}</p>
         {/* 좋아요와 싫어요 버튼 */}
         <div className="standard">
