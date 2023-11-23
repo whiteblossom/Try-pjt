@@ -18,7 +18,7 @@ const DetailPage = () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
-        NewData = { ...news , articles };
+        NewData = { ...news , articles } ;
         setDetailNews(NewData);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
@@ -27,7 +27,7 @@ const DetailPage = () => {
 
     const fetchArticleViews = async () => {
       try {
-        const response = await fetch(`/api/articles/${article_id}/views`);
+        const response = await fetch(`/api/reading/${article_id}/views`);
         const articleViews = await response.json();
         setViews(articleViews); // 조회수 업데이트
       } catch (error) {
@@ -42,7 +42,7 @@ const DetailPage = () => {
     
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
-          await fetch(`/api/articles/${article_id}/read?user_id=${user_id}`, {
+          await fetch(`/api/reading/${article_id}/read?user_id=${user_id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -60,10 +60,6 @@ const DetailPage = () => {
     addLogData();  // addLogData 호출
   }, [article_id, user_id]);
 
-  if (!news) {
-    return <div>Loading...</div>;
-  }
-
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -72,18 +68,43 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
-  // 우측 상단 헤드라인 데이터
-  const rightHeadlines = [
-    { id: 1, title: '우측 헤드라인 1' },
-    { id: 2, title: '우측 헤드라인 2' },
-    { id: 3, title: '우측 헤드라인 3' },
-    { id: 4, title: '우측 헤드라인 4' },
-    { id: 5, title: '우측 헤드라인 5' },
-  ];
-
   const likeImageUrl = process.env.PUBLIC_URL + '/img/like.png';
   const dislikeImageUrl = process.env.PUBLIC_URL + '/img/dislike.png';
 
+  const handleLikeDislike = async (type) => {
+    try {
+      const response = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
+      const number = await response.json();
+  
+      // Determine new recommendation value based on the button type
+      let newRecommendation;
+      if (type === 'like') {
+        newRecommendation = number === 1 ? 0 : 1;
+      } else if (type === 'dislike') {
+        newRecommendation = number === 2 ? 0 : 2;
+      }
+  
+      // Update recommendation on the backend
+      const putResponse = await fetch(`/api/reading/recommend`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          article_id: article_id,
+          user_id: user_id,
+          recommendation: newRecommendation,
+        }),
+      });
+  
+      //const responselike = await fetch(`/api/reading/like`);
+      //const responsedislike = await fetch(`/api/reading/dislike`);
+
+      console.log(newRecommendation);
+    } catch (error) {
+      console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
+    }
+  };
   return (
     <div className="main-container">
       <div className="left-container">
@@ -96,16 +117,16 @@ const DetailPage = () => {
             <br />
             <small>조회수: {views}</small>
             <p>{article.content}</p>
-        {/* 좋아요와 싫어요 버튼 */}
-        <div className="standard">
-          <button className="like" onClick={() => setLikes(article.likes + 1)}>
-            <img src={likeImageUrl} alt="추천" /><br />{article.likes}
-          </button>
-          <button className="dislike" onClick={() => setDislikes(article.dislikes + 1)}>
-            <img src={dislikeImageUrl} alt="비추천" /><br />{article.dislikes}
-          </button>
-        </div>
-        </div>
+            {/* 좋아요와 싫어요 버튼 */}
+            <div className="standard">
+              <button className="like" onClick={() => handleLikeDislike('like')}>
+                <img src={likeImageUrl} alt="추천" /><br />
+              </button>
+              <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
+                <img src={dislikeImageUrl} alt="비추천" /><br />
+              </button>
+            </div>
+          </div>
         ))}
         <div className="interest-container">
           {/* 슬라이더 */}
@@ -129,9 +150,6 @@ const DetailPage = () => {
       <div className="right-container">
         <h2>우측 헤드라인</h2>
         <ul style={{ padding: "0px" }}>
-          {rightHeadlines.map((headline) => (
-            <p key={headline.id}>{headline.title}</p>
-          ))}
         </ul>
         {/* ... (우측 컨테이너 내용) */}
       </div>
