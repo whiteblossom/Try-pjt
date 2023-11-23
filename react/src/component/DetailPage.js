@@ -18,8 +18,7 @@ const DetailPage = () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
-        setDetailNews({ ...news, articles });
-        NewData = { ...news , articles };
+        NewData = { ...news , articles } ;
         setDetailNews(NewData);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
@@ -28,7 +27,7 @@ const DetailPage = () => {
 
     const fetchArticleViews = async () => {
       try {
-        const response = await fetch(`/api/articles/${article_id}/views`);
+        const response = await fetch(`/api/reading/${article_id}/views`);
         const articleViews = await response.json();
         setViews(articleViews); // 조회수 업데이트
       } catch (error) {
@@ -43,7 +42,7 @@ const DetailPage = () => {
     
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
-          await fetch(`/api/articles/${article_id}/read?user_id=${user_id}`, {
+          await fetch(`/api/reading/${article_id}/read?user_id=${user_id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -98,8 +97,8 @@ const DetailPage = () => {
         }),
       });
   
-      const responselike = await fetch(`/api/reading/like`);
-      const responsedislike = await fetch(`/api/reading/dislike`);
+      //const responselike = await fetch(`/api/reading/like`);
+      //const responsedislike = await fetch(`/api/reading/dislike`);
 
       console.log(newRecommendation);
     } catch (error) {

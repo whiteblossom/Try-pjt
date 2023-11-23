@@ -44,6 +44,7 @@ public class ReadingController {
         Integer result = readingMapper.findRecommendation(article_id,user_id);
         // null이 반환되면 0으로 처리하거나 다른 기본값을 사용할 수 있습니다.
         return result;
+    }
     // 기사 읽으면 로그데이터 넣기
     @RequestMapping("/{article_id}/read")
     public String readArticle(@PathVariable int article_id, @RequestParam String user_id) {
