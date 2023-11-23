@@ -75,4 +75,12 @@ public class ReadingController {
     public int getArticleViews(@PathVariable int article_id) {
         return readingMapper.getArticleViews(article_id);
     }
+
+    @RequestMapping("/updatekeyword")
+    public void updateKeyword(@RequestParam("article_id") Integer article_id, @RequestParam("user_id") String user_id) {
+        readingMapper.setDecayRate();
+        readingMapper.updateKeywordCount(user_id);
+        readingMapper.updateKeyword(article_id,user_id);
+    }
 }
+

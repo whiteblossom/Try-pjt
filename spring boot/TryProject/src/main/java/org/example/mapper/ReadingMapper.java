@@ -1,8 +1,11 @@
+
+
 package org.example.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.example.model.Recommendation;
 import org.example.model.LogData;
+import java.util.Map;
 
 import java.time.LocalDateTime;
 
@@ -34,4 +37,16 @@ public interface ReadingMapper {
 
     @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 2 AND article_id = #{article_id}")
     int getDisLike(@Param("article_id") int article_id);
+
+    @Update("SET @decayRate = 0.95")
+    void setDecayRate();
+
+    @Update("UPDATE news.userkeyword SET count = GREATEST(ROUND(count * @decayRate, 3), 0.07) WHERE user_id = #{user_id}")
+    void updateKeywordCount(@Param("user_id") String user_id);
+
+    @Insert("INSERT INTO news.userkeyword (user_id, keyword_id, count) SELECT ld.user_id, ak.keyword_id, 1 FROM news.logdata ld JOIN news.articlekeyword ak ON ld.article_id = ak.article_id WHERE ld.user_id = #{user_id} AND ld.article_id = #{article_id} ON DUPLICATE KEY UPDATE count = count + 1")
+    void updateKeyword(@Param("article_id") int article_id, @Param("user_id") String user_id);
+
 }
+
+

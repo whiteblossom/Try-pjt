@@ -48,17 +48,17 @@ const DetailPage = () => {
       }
     };
 
-    //헤드라인
-    const fetchHeadlines = async () => {
-      try {
-        const response = await fetch('/api/articles/headline'); 
-        const headlinesData = await response.json();
-        setHeadlines(headlinesData);
-      } catch (error) {
-        console.error('Error fetching headlines:', error.message);
-      }
-    };
-
+      //헤드라인
+      const fetchHeadlines = async () => {
+        try {
+          const response = await fetch('/api/articles/headline'); 
+          const headlinesData = await response.json();
+          setHeadlines(headlinesData);
+        } catch (error) {
+          console.error('Error fetching headlines:', error.message);
+        }
+      };
+  
     const addLogData = async () => {
       try {
         console.log('User ID:', user_id);
@@ -72,6 +72,12 @@ const DetailPage = () => {
               'Content-Type': 'application/json',
             },
           });
+
+          await fetch(`/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`,{
+            method:'POST',
+          });
+
+
         } else {
           console.log('로그인 상태가 아닙니다.');
         }
@@ -173,11 +179,12 @@ const DetailPage = () => {
     <br />
     {dislikes}
   </button>
-  </div>
-  </div>
-  ))}
-  <div className="interest-container">
-    {/* 슬라이더 */}
+</div>
+
+            </div>
+          ))}
+        <div className="interest-container">
+          {/* 슬라이더 */}
           <Slider {...sliderSettings}>
             {[...Array(5).keys()].map((index) => (
               <div key={index + 1} className="interest-grid">
@@ -205,8 +212,10 @@ const DetailPage = () => {
               ))}
             </ul>
       </div>
+
     </div>
   );
 };
 
 export default DetailPage;
+
