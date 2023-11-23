@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Link } from 'react-router-dom';
 
 const DetailPage = () => {
   const { article_id } = useParams();
@@ -11,6 +12,7 @@ const DetailPage = () => {
   const [dislikes, setDislikes] = useState(0);
   const [views, setViews] = useState(0);
   const [newreommend, setRecommend] = useState(0);
+  const [headlines, setHeadlines] = useState([]);
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
 
@@ -46,6 +48,17 @@ const DetailPage = () => {
       }
     };
 
+    //헤드라인
+    const fetchHeadlines = async () => {
+      try {
+        const response = await fetch('/api/articles/headline'); 
+        const headlinesData = await response.json();
+        setHeadlines(headlinesData);
+      } catch (error) {
+        console.error('Error fetching headlines:', error.message);
+      }
+    };
+
     const addLogData = async () => {
       try {
         console.log('User ID:', user_id);
@@ -68,6 +81,7 @@ const DetailPage = () => {
     };
     fetchDetailNews();
     fetchArticleViews(); // 조회수를 가져오는 API 호출
+    fetchHeadlines(); //헤드라인 호출
     addLogData(); // addLogData 호출
   }, [article_id, user_id]);
 
@@ -159,12 +173,11 @@ const DetailPage = () => {
     <br />
     {dislikes}
   </button>
-</div>
-
-            </div>
-          ))}
-        <div className="interest-container">
-          {/* 슬라이더 */}
+  </div>
+  </div>
+  ))}
+  <div className="interest-container">
+    {/* 슬라이더 */}
           <Slider {...sliderSettings}>
             {[...Array(5).keys()].map((index) => (
               <div key={index + 1} className="interest-grid">
@@ -183,8 +196,14 @@ const DetailPage = () => {
         </div>
       </div>
       <div className="right-container">
-        <h2>우측 헤드라인</h2>
-        <ul style={{ padding: '0px' }}>{/* ... (우측 컨테이너 내용) */}</ul>
+      <h2>헤드라인 뉴스</h2>
+            <ul>
+              {headlines.map((headline) => (
+                <li key={headline.id}>
+                  <Link to={`/detail/${headline.article_id}`}>{headline.title}</Link>
+                </li>
+              ))}
+            </ul>
       </div>
     </div>
   );
