@@ -27,7 +27,7 @@ public class ArticleController {
     }
 
     @GetMapping("/headline")
-    public ArrayList<Article> getArticleById() {
+    public ArrayList<Article> getHeadlineArticles() {
         return articleMapper.headline();
     }
 

@@ -26,7 +26,7 @@ public class Main implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(this.articleMapper.findAll());
+        //System.out.println(this.articleMapper.findAll());
 
     }
 }

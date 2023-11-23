@@ -9,23 +9,28 @@ const DetailPage = () => {
   const [news, setDetailNews] = useState({ articles: [], content: '' });
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
-  const [views, setViews] = useState(0); // 추가된 부분
-  let NewData ; 
+  const [views, setViews] = useState(0);
+  const [newreommend, setRecommend] = useState(0);
+  let NewData;
   const user_id = sessionStorage.getItem('user_id');
 
   useEffect(() => {
-    const fetchDetailNews = async () => {
+    const fetchDetailNews = async (type) => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
-        NewData = { ...news , articles } ;
+        NewData = { ...news, articles };
         setDetailNews(NewData);
+        // 추천 비추천
         const responselike = await fetch(`/api/reading/like/${article_id}`);
         const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
         const like = await responselike.json();
         setLikes(like);
         const dislike = await responsedislike.json();
         setDislikes(dislike);
+        const recommendresponse = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
+        const number = await recommendresponse.json();
+        setRecommend(number);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
       }
@@ -40,12 +45,12 @@ const DetailPage = () => {
         console.error('Error fetching article views:', error.message);
       }
     };
-    
+
     const addLogData = async () => {
       try {
         console.log('User ID:', user_id);
         console.log('Article ID:', article_id);
-    
+
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
           await fetch(`/api/reading/${article_id}/read?user_id=${user_id}`, {
@@ -63,7 +68,7 @@ const DetailPage = () => {
     };
     fetchDetailNews();
     fetchArticleViews(); // 조회수를 가져오는 API 호출
-    addLogData();  // addLogData 호출
+    addLogData(); // addLogData 호출
   }, [article_id, user_id]);
 
   const sliderSettings = {
@@ -81,7 +86,6 @@ const DetailPage = () => {
     try {
       const response = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
       const number = await response.json();
-  
       // Determine new recommendation value based on the button type
       let newRecommendation;
       if (type === 'like') {
@@ -89,7 +93,7 @@ const DetailPage = () => {
       } else if (type === 'dislike') {
         newRecommendation = number === 2 ? 0 : 2;
       }
-  
+
       // Update recommendation on the backend
       const putResponse = await fetch(`/api/reading/recommend`, {
         method: 'PUT',
@@ -102,7 +106,7 @@ const DetailPage = () => {
           recommendation: newRecommendation,
         }),
       });
-  
+
       const responselike = await fetch(`/api/reading/like/${article_id}`);
       const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
       const like = await responselike.json();
@@ -110,6 +114,7 @@ const DetailPage = () => {
       const dislike = await responsedislike.json();
       setDislikes(dislike);
 
+      setRecommend(newRecommendation);
       console.log(newRecommendation);
     } catch (error) {
       console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
@@ -118,26 +123,46 @@ const DetailPage = () => {
   return (
     <div className="main-container">
       <div className="left-container">
-        {news.articles && news.articles.map((article) => (
-          <div key={article.article_id}>
-            <h1 id="title">{article.title}</h1>
-            <small>{article.reporter_name}</small>
-            <br />
-            <small>{article.write_date}</small>
-            <br />
-            <small>조회수: {views}</small>
-            <p>{article.content}</p>
-            {/* 좋아요와 싫어요 버튼 */}
-            <div className="standard">
-              <button className="like" onClick={() => handleLikeDislike('like')}>
-                <img src={likeImageUrl} alt="추천" /><br />{likes}
-              </button>
-              <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
-                <img src={dislikeImageUrl} alt="비추천" /><br />{dislikes}
-              </button>
+        {news.articles &&
+          news.articles.map((article) => (
+            <div key={article.article_id}>
+              <h1 id="title">{article.title}</h1>
+              <small>{article.reporter_name}</small>
+              <br />
+              <small>{article.write_date}</small>
+              <br />
+              <small>조회수: {views}</small>
+              <p>{article.content}</p>
+              {/* 좋아요와 싫어요 버튼 */}
+              <div className="standard">
+  <button className="like" onClick={() => handleLikeDislike('like')}>
+    <img
+      src={likeImageUrl}
+      alt="추천"
+      style={{
+        width: newreommend === 1 ? '50px' : '40px',
+        height: newreommend === 1 ? '50px' : '40px',
+      }}
+    />
+    <br />
+    {likes}
+  </button>
+  <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
+    <img
+      src={dislikeImageUrl}
+      alt="비추천"
+      style={{
+        width: newreommend === 2 ? '50px' : '40px',
+        height: newreommend === 2 ? '50px' : '40px',
+      }}
+    />
+    <br />
+    {dislikes}
+  </button>
+</div>
+
             </div>
-          </div>
-        ))}
+          ))}
         <div className="interest-container">
           {/* 슬라이더 */}
           <Slider {...sliderSettings}>
@@ -159,9 +184,7 @@ const DetailPage = () => {
       </div>
       <div className="right-container">
         <h2>우측 헤드라인</h2>
-        <ul style={{ padding: "0px" }}>
-        </ul>
-        {/* ... (우측 컨테이너 내용) */}
+        <ul style={{ padding: '0px' }}>{/* ... (우측 컨테이너 내용) */}</ul>
       </div>
     </div>
   );

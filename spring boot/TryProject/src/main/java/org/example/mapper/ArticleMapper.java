@@ -12,7 +12,13 @@ public interface ArticleMapper {
     @Select("SELECT * FROM Article")
     ArrayList<Article> findAll();
 
-    @Select("SELECT * FROM news.article ORDER BY views DESC LIMIT 10")
+    @Select("SELECT a.*, COUNT(l.article_id) as views " +
+            "FROM news.article a " +
+            "LEFT JOIN news.logdata l ON a.article_id = l.article_id " +
+            "WHERE l.view_date >= NOW() - INTERVAL 24 HOUR " +
+            "GROUP BY a.article_id " +
+            "ORDER BY views DESC " +
+            "LIMIT 10")
     ArrayList<Article> headline();
 
     @Select("SELECT * FROM Article WHERE article_id = #{article_id}")
