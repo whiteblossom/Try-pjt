@@ -12,4 +12,5 @@ public class LogData {
     private int article_id;
     private LocalDateTime view_date;
     private int recommendation;
+
 }
