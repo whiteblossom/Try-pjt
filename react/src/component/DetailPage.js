@@ -20,6 +20,12 @@ const DetailPage = () => {
         const articles = await response.json();
         NewData = { ...news , articles } ;
         setDetailNews(NewData);
+        const responselike = await fetch(`/api/reading/like/${article_id}`);
+        const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
+        const like = await responselike.json();
+        setLikes(like);
+        const dislike = await responsedislike.json();
+        setDislikes(dislike);
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
       }
@@ -97,8 +103,12 @@ const DetailPage = () => {
         }),
       });
   
-      //const responselike = await fetch(`/api/reading/like`);
-      //const responsedislike = await fetch(`/api/reading/dislike`);
+      const responselike = await fetch(`/api/reading/like/${article_id}`);
+      const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
+      const like = await responselike.json();
+      setLikes(like);
+      const dislike = await responsedislike.json();
+      setDislikes(dislike);
 
       console.log(newRecommendation);
     } catch (error) {
@@ -120,10 +130,10 @@ const DetailPage = () => {
             {/* 좋아요와 싫어요 버튼 */}
             <div className="standard">
               <button className="like" onClick={() => handleLikeDislike('like')}>
-                <img src={likeImageUrl} alt="추천" /><br />
+                <img src={likeImageUrl} alt="추천" /><br />{likes}
               </button>
               <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
-                <img src={dislikeImageUrl} alt="비추천" /><br />
+                <img src={dislikeImageUrl} alt="비추천" /><br />{dislikes}
               </button>
             </div>
           </div>

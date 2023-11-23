@@ -29,6 +29,9 @@ public interface ReadingMapper {
     @Select("SELECT COUNT(*) FROM logdata WHERE article_id = #{article_id}")
     int getArticleViews(@Param("article_id") int article_id);
 
-    @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 1")
+    @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 1 AND article_id = #{article_id}")
     int getLike(@Param("article_id") int article_id);
+
+    @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 2 AND article_id = #{article_id}")
+    int getDisLike(@Param("article_id") int article_id);
 }
