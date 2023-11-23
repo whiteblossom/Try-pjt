@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class LogData {
 
     private String user_id;
-    private int atricle_id;
-    private LocalDateTime view_Date;
+    private int article_id;
+    private LocalDateTime view_date;
+    private int recommendation;
 }

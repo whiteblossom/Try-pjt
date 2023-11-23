@@ -2,11 +2,12 @@ package org.example.model;
 
 import lombok.*;
 
+
 @NoArgsConstructor
 @Data
-public class Recommend {
+public class Recommendation {
 
     private String user_id;
-    private int atricle_id;
-    private int Recommendation;
+    private int article_id;
+    private int recommendation;
 }

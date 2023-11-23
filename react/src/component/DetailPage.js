@@ -9,14 +9,14 @@ const DetailPage = () => {
   const [news, setDetailNews] = useState({ articles: [], content: '' });
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
-  let NewData ; 
+  const user_id = sessionStorage.getItem('user_id');
+
   useEffect(() => {
     const fetchDetailNews = async () => {
       try {
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
-        NewData = { ...news , articles } ;
-        setDetailNews(NewData);
+        setDetailNews({ ...news, articles });
       } catch (error) {
         console.error('Error fetching detail news:', error.message);
       }
@@ -24,10 +24,6 @@ const DetailPage = () => {
 
     fetchDetailNews();
   }, [article_id]);
-
-  if (!news) {
-    return <div>Loading...</div>;
-  }
 
   const sliderSettings = {
     dots: true,
@@ -37,40 +33,65 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
-  // 우측 상단 헤드라인 데이터
-  const rightHeadlines = [
-    { id: 1, title: '우측 헤드라인 1' },
-    { id: 2, title: '우측 헤드라인 2' },
-    { id: 3, title: '우측 헤드라인 3' },
-    { id: 4, title: '우측 헤드라인 4' },
-    { id: 5, title: '우측 헤드라인 5' },
-  ];
-
   const likeImageUrl = process.env.PUBLIC_URL + '/img/like.png';
   const dislikeImageUrl = process.env.PUBLIC_URL + '/img/dislike.png';
 
+  const handleLikeDislike = async (type) => {
+    try {
+      const response = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
+      const number = await response.json();
+  
+      // Determine new recommendation value based on the button type
+      let newRecommendation;
+      if (type === 'like') {
+        newRecommendation = number === 1 ? 0 : 1;
+      } else if (type === 'dislike') {
+        newRecommendation = number === 2 ? 0 : 2;
+      }
+  
+      // Update recommendation on the backend
+      const putResponse = await fetch(`/api/reading/recommend`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          article_id: article_id,
+          user_id: user_id,
+          recommendation: newRecommendation,
+        }),
+      });
+  
+      const responselike = await fetch(`/api/reading/like`);
+      const responsedislike = await fetch(`/api/reading/dislike`);
+
+      console.log(newRecommendation);
+    } catch (error) {
+      console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
+    }
+  };
   return (
     <div className="main-container">
       <div className="left-container">
         {news.articles && news.articles.map((article) => (
           <div key={article.article_id}>
             <h1 id="title">{article.title}</h1>
-            <small>{article.reporter_Name}</small>
+            <small>{article.reporter_name}</small>
             <br />
-            <small>{article.write_Date}</small>
+            <small>{article.write_date}</small>
             <br />
             <small>조회수: {article.views}</small>
             <p>{article.content}</p>
-        {/* 좋아요와 싫어요 버튼 */}
-        <div className="standard">
-          <button className="like" onClick={() => setLikes(article.likes + 1)}>
-            <img src={likeImageUrl} alt="추천" /><br />{article.likes}
-          </button>
-          <button className="dislike" onClick={() => setDislikes(article.dislikes + 1)}>
-            <img src={dislikeImageUrl} alt="비추천" /><br />{article.dislikes}
-          </button>
-        </div>
-        </div>
+            {/* 좋아요와 싫어요 버튼 */}
+            <div className="standard">
+              <button className="like" onClick={() => handleLikeDislike('like')}>
+                <img src={likeImageUrl} alt="추천" /><br />
+              </button>
+              <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
+                <img src={dislikeImageUrl} alt="비추천" /><br />
+              </button>
+            </div>
+          </div>
         ))}
         <div className="interest-container">
           {/* 슬라이더 */}
@@ -94,9 +115,6 @@ const DetailPage = () => {
       <div className="right-container">
         <h2>우측 헤드라인</h2>
         <ul style={{ padding: "0px" }}>
-          {rightHeadlines.map((headline) => (
-            <p key={headline.id}>{headline.title}</p>
-          ))}
         </ul>
         {/* ... (우측 컨테이너 내용) */}
       </div>
