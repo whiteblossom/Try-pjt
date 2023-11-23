@@ -28,4 +28,7 @@ public interface ReadingMapper {
     //조회수 계산
     @Select("SELECT COUNT(*) FROM logdata WHERE article_id = #{article_id}")
     int getArticleViews(@Param("article_id") int article_id);
+
+    @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 1")
+    int getLike(@Param("article_id") int article_id);
 }
