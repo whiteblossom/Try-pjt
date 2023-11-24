@@ -17,8 +17,16 @@ const DetailPage = () => {
   const user_id = sessionStorage.getItem('user_id');
 
   useEffect(() => {
+    const fetchData = async () => {
+      await fetchDetailNews();
+      await fetchArticleViews();
+      await fetchHeadlines();
+      await addLogData();
+    };
+
     const fetchDetailNews = async (type) => {
       try {
+        
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
         NewData = { ...news, articles };
@@ -61,9 +69,6 @@ const DetailPage = () => {
   
     const addLogData = async () => {
       try {
-        console.log('User ID:', user_id);
-        console.log('Article ID:', article_id);
-
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
           await fetch(`/api/reading/${article_id}/read?user_id=${user_id}`, {
@@ -72,7 +77,6 @@ const DetailPage = () => {
               'Content-Type': 'application/json',
             },
           });
-
           await fetch(`/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`,{
             method:'POST',
           });
@@ -85,10 +89,7 @@ const DetailPage = () => {
         console.error('Error adding log data:', error.message);
       }
     };
-    fetchDetailNews();
-    fetchArticleViews(); // 조회수를 가져오는 API 호출
-    fetchHeadlines(); //헤드라인 호출
-    addLogData(); // addLogData 호출
+    fetchData();
   }, [article_id, user_id]);
 
   const sliderSettings = {
@@ -135,7 +136,6 @@ const DetailPage = () => {
       setDislikes(dislike);
 
       setRecommend(newRecommendation);
-      console.log(newRecommendation);
     } catch (error) {
       console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
     }
@@ -218,4 +218,3 @@ const DetailPage = () => {
 };
 
 export default DetailPage;
-
