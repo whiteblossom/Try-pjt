@@ -9,7 +9,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('M');
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null); // 추가: 아이디 중복 여부
 
   const handleUsernameCheck = async () => {
