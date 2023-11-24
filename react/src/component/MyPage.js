@@ -146,13 +146,13 @@ const MyPage = () => {
         <p>나이: {age}</p>
         <p>성별: {gender}</p>
         <p>
-          관심사: {interests.slice(0, 10).map((interest, index) => (
+          관심사 <br />{interests.slice(0, 10).map((interest, index) => (
             <span key={index}>{`#${interest} `}</span>
           ))}
         </p>
         <p>
-          최근 뉴스: {recentNews.slice(0, 10).map((news, index) => (
-            <span key={index}>{`${news}, `}</span>
+          최근 뉴스 <br />{recentNews.slice(0, 10).map((news, index) => (
+            <span key={index}>{`${news} `} <br /></span>
           ))}
         </p>
       </div>
