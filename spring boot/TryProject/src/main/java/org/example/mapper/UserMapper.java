@@ -7,6 +7,7 @@ import org.example.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -39,12 +40,13 @@ public interface UserMapper {
             "LIMIT 10")
     List<String> getUserInterests(@Param("user_id") String user_id);
 
-    @Select("SELECT a.title " +
+    @Select("SELECT a.title, a.article_id " +
             "FROM logdata l " +
             "JOIN article a ON l.article_id = a.article_id " +
             "WHERE l.user_id = #{user_id} " +
             "ORDER BY l.view_date DESC " +
             "LIMIT 10")
-    List<String> getRecentlyViewedNews(@Param("user_id") String user_id);
+    List<Map<String, Object>> getRecentlyViewedNews(@Param("user_id") String user_id);
+
 
 }

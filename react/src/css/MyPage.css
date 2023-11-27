@@ -12,11 +12,12 @@
   .my-page-header {
     text-align: center;
     color: #4B89DC;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   
   .my-page-info {
-    margin-bottom: 20px;
+    font-size: 20px;
+    margin-bottom: 30px;
   }
   
   .my-page-info p {

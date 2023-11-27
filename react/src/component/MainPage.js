@@ -1,5 +1,4 @@
 //MainPage.js
-// 로그인되어 있을 경우에만 "오늘의 정보"를 표시
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -9,7 +8,6 @@ const MainPage = () => {
   const [interests, setInterests] = useState([]);
   const [articles, setArticles] = useState([]);
   const [headlines, setHeadlines] = useState([]);
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -57,20 +55,7 @@ const MainPage = () => {
     ];
     setInterests(dummyInterests);
   }, []);
-/*
-  useEffect(() => {
-    // 로그인 여부를 체크하는 로직 (예: 토큰의 존재 여부 등)
-    const checkLoginStatus = async () => {
-      try {
-        const response = await axios.get('/api/auth/user');
-        setIsLoggedIn(true);
-      } catch (error) {
-        setIsLoggedIn(false);
-      }
-    };
-    checkLoginStatus();
-  }, []);
-*/
+
   return (
     <div>
       <div className="main-container">

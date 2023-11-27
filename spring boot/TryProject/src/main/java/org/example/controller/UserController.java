@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -71,10 +72,12 @@ public class UserController {
         return userMapper.getUserInterests(user_id);
     }
 
+
     @GetMapping("/recent-news/{user_id}")
-    public List<String> getRecentlyViewedNews(@PathVariable String user_id) {
+    public List<Map<String, Object>> getRecentlyViewedNews(@PathVariable String user_id) {
         return userMapper.getRecentlyViewedNews(user_id);
     }
+
 }
 
 

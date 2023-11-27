@@ -6,7 +6,7 @@
 a {
   text-decoration: none;
   color: inherit;
-  font-size: 1.2em; /* 적절한 크기로 조절하세요. */
+  font-size: 20px;
   transition: border-bottom 0.3s ease; /* 부드러운 효과를 위한 transition 추가 */
 }
 
@@ -32,7 +32,9 @@ small {
   font-size: 1.2em; 
   padding: 40px;
 }
-
+.today-container p{
+  padding : 10px;
+}
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;

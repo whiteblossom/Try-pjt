@@ -184,6 +184,7 @@ const DetailPage = () => {
             </div>
           ))}
         <div className="interest-container">
+        <h2>추천 뉴스</h2>
           {/* 슬라이더 */}
           <Slider {...sliderSettings}>
             {[...Array(5).keys()].map((index) => (
@@ -192,8 +193,7 @@ const DetailPage = () => {
                 <div style={{ display: 'flex' }}>
                   {[...Array(3).keys()].map((articleIndex) => (
                     <div key={articleIndex + 1} style={{ margin: '10px' }} className="interest-item">
-                      <h3>추천 뉴스 {index + 1} - 기사 {articleIndex + 1}</h3>
-                      <p>추천 뉴스 내용 {index + 1} - 기사 내용 {articleIndex + 1}</p>
+                      <h3> 기사 제목ㄹㅇㅎㄹ옿ㄹ옿ㄹ {articleIndex + 1}</h3>
                     </div>
                   ))}
                 </div>

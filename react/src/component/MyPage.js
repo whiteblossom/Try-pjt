@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import '../css/MyPage.css';
+import { Link } from 'react-router-dom';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -145,14 +146,19 @@ const MyPage = () => {
       <p>아이디: {user_id}</p>
         <p>나이: {age}</p>
         <p>성별: {gender}</p>
-        <p>
+        <p><br />
           관심사 <br />{interests.slice(0, 10).map((interest, index) => (
             <span key={index}>{`#${interest} `}</span>
           ))}
         </p>
-        <p>
-          최근 뉴스 <br />{recentNews.slice(0, 10).map((news, index) => (
-            <span key={index}>{`${news} `} <br /></span>
+        <p><br />
+          최근 본 뉴스 <br />{recentNews.slice(0, 10).map((news, index) => (
+             <span key={index}>
+             <Link to={`/detail/${news.article_id}`}>
+               {`${news.title} `}
+             </Link>
+             <br />
+           </span>
           ))}
         </p>
       </div>
