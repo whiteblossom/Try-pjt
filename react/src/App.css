@@ -277,3 +277,10 @@ nav a:hover {
   width: 40px; /* 이미지 크기 조절 */
   height: 40px;
 }
+.interest-item a{
+  font-size: 18px;
+  overflow: hidden;    /* 넘치는 부분 숨김 */
+}
+.interest-item li{
+  margin-top: 20px;
+}

@@ -3,6 +3,7 @@ package org.example.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.javassist.compiler.ast.Keyword;
+import org.example.model.ArticleDTO;
 import org.example.model.LogData;
 import org.example.model.User;
 import org.example.mapper.UserMapper;
@@ -76,6 +77,10 @@ public class UserController {
     @GetMapping("/recent-news/{user_id}")
     public List<Map<String, Object>> getRecentlyViewedNews(@PathVariable String user_id) {
         return userMapper.getRecentlyViewedNews(user_id);
+    }
+    @GetMapping("/userArticle/{keyword}")
+    public List<ArticleDTO> getArticle(@PathVariable String keyword) {
+        return userMapper.getArticle(keyword);
     }
 
 }

@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 const MainPage = () => {
   const [today, setToday] = useState(null);
   const [interests, setInterests] = useState([]);
   const [articles, setArticles] = useState([]);
   const [headlines, setHeadlines] = useState([]);
+  const [keywordArticles, setKeywordArticles] = useState({}); // 관심 키워드별 기사 저장
+
+  const user_id = sessionStorage.getItem('user_id');
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -45,15 +47,29 @@ const MainPage = () => {
     };
     fetchWeatherData();
 
-    const dummyInterests = [
-      { id: 1, title: '관심 주제 1', description: '기사 제목' },
-      { id: 2, title: '관심 주제 2', description: '기사 제목' },
-      { id: 3, title: '관심 주제 3', description: '기사 제목' },
-      { id: 4, title: '관심 주제 4', description: '기사 제목' },
-      { id: 5, title: '관심 주제 5', description: '기사 제목' },
-      { id: 6, title: '관심 주제 6', description: '기사 제목' },
-    ];
-    setInterests(dummyInterests);
+    const UserInterests = async () => {
+      const interest = await axios.get(`/api/users/interests/${user_id}`);
+      setInterests(interest.data);
+
+      const keywordArticleMap = {}; // 관심 키워드별 기사를 저장할 객체
+      await Promise.all(
+        interest.data.map(async (keyword) => {
+          const response = await axios.get(`/api/users/userArticle/${keyword}`);
+          keywordArticleMap[keyword] = response.data;
+        })
+      );
+
+      setKeywordArticles(keywordArticleMap);
+    };
+    UserInterests();
+
+    const articletitle = async (keyword) => {
+    const article = axios.get(`/api/users/userArticle/${keyword}`).then(
+      response => { console.log( response.data ) ; return 1 ; }
+
+    );
+    // console.log(article);
+    }
   }, []);
 
   return (
@@ -73,11 +89,18 @@ const MainPage = () => {
           <div className="interest-container">
             <h2>관심 키워드 별 뉴스</h2>
             <div className="interest-grid">
-              {interests.map((interest) => (
-                <div key={interest.id} className="interest-item">
-                  <h3>{interest.title}</h3>
-                  <p>{interest.description}</p>
-                </div>
+              { interests.slice(0,6).map((interest) => (
+                <div key={interest} className="interest-item">
+                <h3># {interest}</h3>
+                {/* 관심 키워드별 기사 표시 */}
+                <ul>
+                  {keywordArticles[interest]?.slice(0, 3).map((article) => (
+                    <li key={article.article_id}>
+                      <Link to={`/detail/${article.article_id}`}>{article.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
               ))}
             </div>
           </div>

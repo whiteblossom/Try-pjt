@@ -1,7 +1,10 @@
 package org.example.mapper;
 
+import lombok.Data;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.javassist.compiler.ast.Keyword;
+import org.example.model.Article;
+import org.example.model.ArticleDTO;
 import org.example.model.LogData;
 import org.example.model.User;
 
@@ -48,5 +51,10 @@ public interface UserMapper {
             "LIMIT 10")
     List<Map<String, Object>> getRecentlyViewedNews(@Param("user_id") String user_id);
 
+    @Select("SELECT article.article_id,title FROM keyword JOIN articlekeyword ON keyword.keyword_id = articlekeyword.keyword_id JOIN article ON articlekeyword.article_id = article.article_id WHERE keyword.keyword = #{keyword} limit 3;")
+    List<ArticleDTO> getArticle(@Param("keyword") String keyword);
+
 
 }
+
+

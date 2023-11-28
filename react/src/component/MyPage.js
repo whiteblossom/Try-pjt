@@ -135,6 +135,7 @@ const MyPage = () => {
          console.error('사용자의 최근 본 뉴스 정보를 가져오는 중 오류 발생:', error);
        });
    }
+   window.location.reload();
  }, [userData.isLoggedIn]);
 
   const { user_id, age, gender, interests = [], recentNews = [] } = userData.userInfo;
