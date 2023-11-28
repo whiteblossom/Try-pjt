@@ -1,14 +1,12 @@
 package org.example.controller;
 
 import org.example.mapper.ReadingMapper;
-import org.example.model.Article;
-import org.example.model.Recommendation;
-import org.example.model.User;
+import org.example.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import org.example.model.LogData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,5 +80,11 @@ public class ReadingController {
         readingMapper.updateKeywordCount(user_id);
         readingMapper.updateKeyword(article_id,user_id);
     }
+
+    @RequestMapping("/getRecommendation")
+    public ArticleDTO getRecommendation(@RequestParam("user_id") String user_id,@RequestParam("article_id") Integer article_id,@RequestParam("category_id") Integer category_id,@RequestParam("reporter_name") String reporter_name) {
+        return (ArticleDTO) readingMapper.getRecommendation(user_id, article_id, category_id, reporter_name);
+    }
+
 }
 

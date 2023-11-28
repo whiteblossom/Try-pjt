@@ -13,6 +13,7 @@ const DetailPage = () => {
   const [views, setViews] = useState(0);
   const [newreommend, setRecommend] = useState(0);
   const [headlines, setHeadlines] = useState([]);
+  const [topRecommended, setTopRecommended] = useState([]);
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
 
@@ -22,6 +23,35 @@ const DetailPage = () => {
       await fetchArticleViews();
       await fetchHeadlines();
       await addLogData();
+      await fetchTopRecommended(); 
+    };
+    
+    const fetchTopRecommended = async () => {
+      try {
+        const response = await fetch(`/api/reading/getRecommendation`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            article_id: article_id,
+            user_id: user_id,
+            category_id: news.articles[0].category_id,
+            reporter_name: news.articles[0].reporter_name,
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const topRecommendedData = await response.json();
+        setTopRecommended(topRecommendedData);
+    
+        console.log('Top recommended data:', topRecommendedData);
+      } catch (error) {
+        console.error('Error fetching top recommended articles:', error.message);
+      }
     };
 
     const fetchDetailNews = async (type) => {
