@@ -63,80 +63,44 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    // 세션에서 사용자 아이디 가져오기
-    const user_id = sessionStorage.getItem('user_id');
-
-    // 로그인 상태이면서 사용자 아이디가 있는 경우에만 실행
-    if (userData.isLoggedIn && user_id) {
-      // 서버에서 사용자 정보 가져오기
-      fetch(`/api/users/${user_id}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data) {
-            console.log('Fetched user data:', data);
-
-            // 직접 data를 사용하여 사용자 정보 업데이트
-          setUserData({
-            isLoggedIn: true,
+    const fetchData = async () => {
+      try {
+        const user_id = sessionStorage.getItem('user_id');
+  
+        if (userData.isLoggedIn && user_id) {
+          // Fetch user information
+          const userInfoResponse = await fetch(`/api/users/${user_id}`);
+          const userInfoData = await userInfoResponse.json();
+  
+          // Fetch user interests
+          const interestsResponse = await fetch(`/api/users/interests/${user_id}`);
+          const interestsData = await interestsResponse.json();
+  
+          // Fetch user recent news
+          const recentNewsResponse = await fetch(`/api/users/recent-news/${user_id}`);
+          const recentNewsData = await recentNewsResponse.json();
+  
+          // Update state
+          setUserData(prevState => ({
+            ...prevState,
             userInfo: {
-              user_id: data.user_id,
-              age: data.age,
-              gender: data.gender,
-              interests: data.interests || [],
-              recentNews: data.recentNews || [],
+              ...prevState.userInfo,
+              user_id: userInfoData.user_id,
+              age: userInfoData.age,
+              gender: userInfoData.gender,
+              interests: interestsData || [],
+              recentNews: recentNewsData || [],
             },
-          });
-          } else {
-            console.error('사용자 정보가 비어있습니다.');
-          }
-        })
-        .catch(error => {
-          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
-        });
-
-       // 사용자의 관심사 및 최근 본 뉴스 가져오기
-       fetch(`/api/users/interests/${user_id}`)
-       .then(response => response.json())
-       .then(data => {
-         if (data) {
-           console.log('Fetched user interests:', data);
-           setUserData(prevState => ({
-             ...prevState,
-             userInfo: {
-               ...prevState.userInfo,
-               interests: data || [],
-             },
-           }));
-         } else {
-           console.error('사용자의 관심사 정보가 비어있습니다.');
-         }
-       })
-       .catch(error => {
-         console.error('사용자의 관심사 정보를 가져오는 중 오류 발생:', error);
-       });
-
-     fetch(`/api/users/recent-news/${user_id}`)
-       .then(response => response.json())
-       .then(data => {
-         if (data) {
-           console.log('Fetched user recent news:', data);
-           setUserData(prevState => ({
-             ...prevState,
-             userInfo: {
-               ...prevState.userInfo,
-               recentNews: data || [],
-             },
-           }));
-         } else {
-           console.error('사용자의 최근 본 뉴스 정보가 비어있습니다.');
-         }
-       })
-       .catch(error => {
-         console.error('사용자의 최근 본 뉴스 정보를 가져오는 중 오류 발생:', error);
-       });
-   }
-   window.location.reload();
- }, [userData.isLoggedIn]);
+          }));
+        }
+      } catch (error) {
+        console.error('데이터를 가져오는 중 오류 발생:', error);
+      }
+    };
+  
+    fetchData();
+  }, [userData.isLoggedIn]);
+  
 
   const { user_id, age, gender, interests = [], recentNews = [] } = userData.userInfo;
 
