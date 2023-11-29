@@ -18,7 +18,7 @@ const DetailPage = () => {
 
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
-
+  
   useEffect(() => {
     const fetchData = async () => {
       await fetchDetailNews();
@@ -242,8 +242,22 @@ const DetailPage = () => {
           ))}
         </ul> 
         <div className="chart-container">
-          <h2>차트</h2>
-          <ChartComponent data={{ labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'], values: [10, 20, 30, 40, 50, 60] }} />
+          <h2>연령별 차트</h2>
+          <ChartComponent
+            data={{
+              labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'],
+              values: [10, 20, 30, 40, 50, 60],
+            }}
+            chartType="bar"
+          />
+          <h2>성별 차트</h2>
+          <ChartComponent
+            data={{
+              labels: ['남성', '여성'], // 실제 데이터로 대체하세요
+              values: [45, 55], // 실제 데이터로 대체하세요
+            }}
+            chartType="pie"
+          />
         </div>
       </div>
     </div>
