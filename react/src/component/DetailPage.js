@@ -14,6 +14,10 @@ const DetailPage = () => {
   const [newreommend, setRecommend] = useState(0);
   const [headlines, setHeadlines] = useState([]);
   const [topRecommended, setTopRecommended] = useState([]);
+  const [category_id, setcategory_id] = useState(0);
+  const [reporter_name, setreporter_name] = useState('');
+
+
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
 
@@ -23,35 +27,8 @@ const DetailPage = () => {
       await fetchArticleViews();
       await fetchHeadlines();
       await addLogData();
+      setTimeout(500);
       await fetchTopRecommended(); 
-    };
-    
-    const fetchTopRecommended = async () => {
-      try {
-        const response = await fetch(`/api/reading/getRecommendation`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            article_id: article_id,
-            user_id: user_id,
-            category_id: news.articles[0].category_id,
-            reporter_name: news.articles[0].reporter_name,
-          }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-    
-        const topRecommendedData = await response.json();
-        setTopRecommended(topRecommendedData);
-    
-        console.log('Top recommended data:', topRecommendedData);
-      } catch (error) {
-        console.error('Error fetching top recommended articles:', error.message);
-      }
     };
 
     const fetchDetailNews = async (type) => {
@@ -61,6 +38,8 @@ const DetailPage = () => {
         const articles = await response.json();
         NewData = { ...news, articles };
         setDetailNews(NewData);
+        setcategory_id(news.articles[0].category_id);
+
         // 추천 비추천
         const responselike = await fetch(`/api/reading/like/${article_id}`);
         const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
@@ -120,6 +99,32 @@ const DetailPage = () => {
       }
     };
     fetchData();
+
+    
+    const fetchTopRecommended = async () => {
+      try {
+        console.log(article_id);
+        console.log(user_id);
+        console.log(news);
+        setcategory_id(news.articles[0].category_id);
+        setreporter_name(news.articles[0].reporter_name);
+        console.log(news.articles[0].category_id);
+        console.log(news.articles[0].reporter_name);
+        const response = await fetch(`/api/reading/getRecommendation/${user_id}/${article_id}/${category_id}/${(news.articles[0].reporter_name)}`);
+        console.log(response)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    console.log(1);
+        const topRecommendedData = await response.json();
+        setTopRecommended(topRecommendedData);
+    
+        console.log('Top recommended data:', topRecommendedData);
+      } catch (error) {
+        console.error('Error fetching top recommended articles:', error.message);
+      }
+    };
+
   }, [article_id, user_id]);
 
   const sliderSettings = {
@@ -169,6 +174,8 @@ const DetailPage = () => {
     } catch (error) {
       console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
     }
+
+    
   };
   return (
     <div className="main-container">
