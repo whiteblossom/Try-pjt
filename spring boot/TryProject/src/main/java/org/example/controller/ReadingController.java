@@ -81,9 +81,9 @@ public class ReadingController {
         readingMapper.updateKeyword(article_id,user_id);
     }
 
-    @PostMapping("/getRecommendation/{user_id}/{article_id}/{category_id}/{reporter_name}")
-    public ArticleDTO getRecommendation(@PathVariable String user_id,@PathVariable Integer article_id,@PathVariable Integer category_id,@PathVariable String reporter_name) {
-        return (ArticleDTO) readingMapper.getRecommendation(user_id, article_id, category_id, reporter_name);
+    @RequestMapping("/getRecommendation/{user_id}/{article_id}")
+    public ArticleDTO getRecommendation(@PathVariable String user_id,@PathVariable Integer article_id) {
+        return (ArticleDTO) readingMapper.getRecommendation(user_id, article_id);
     }
 
 }

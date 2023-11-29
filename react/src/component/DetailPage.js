@@ -105,12 +105,7 @@ const DetailPage = () => {
       try {
         console.log(article_id);
         console.log(user_id);
-        console.log(news);
-        setcategory_id(news.articles[0].category_id);
-        setreporter_name(news.articles[0].reporter_name);
-        console.log(news.articles[0].category_id);
-        console.log(news.articles[0].reporter_name);
-        const response = await fetch(`/api/reading/getRecommendation/${user_id}/${article_id}/${category_id}/${(news.articles[0].reporter_name)}`);
+        const response = await fetch(`/api/reading/getRecommendation/${user_id}/${article_id}`);
         console.log(response)
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
