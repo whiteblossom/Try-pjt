@@ -231,6 +231,7 @@ const DetailPage = () => {
             ))}
           </Slider>
         </div>
+        </div>
       <div className="right-container">
         <h2>헤드라인 뉴스</h2>
         <ul>
@@ -244,7 +245,6 @@ const DetailPage = () => {
           <h2>차트</h2>
           <ChartComponent data={{ labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'], values: [10, 20, 30, 40, 50, 60] }} />
         </div>
-      </div>
       </div>
     </div>
   );
