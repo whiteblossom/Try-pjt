@@ -14,8 +14,6 @@ const DetailPage = () => {
   const [newreommend, setRecommend] = useState(0);
   const [headlines, setHeadlines] = useState([]);
   const [topRecommended, setTopRecommended] = useState([]);
-  const [category_id, setcategory_id] = useState(0);
-  const [reporter_name, setreporter_name] = useState('');
 
 
   let NewData;
@@ -38,7 +36,6 @@ const DetailPage = () => {
         const articles = await response.json();
         NewData = { ...news, articles };
         setDetailNews(NewData);
-        setcategory_id(news.articles[0].category_id);
 
         // 추천 비추천
         const responselike = await fetch(`/api/reading/like/${article_id}`);
@@ -219,19 +216,21 @@ const DetailPage = () => {
         <h2>추천 뉴스</h2>
           {/* 슬라이더 */}
           <Slider {...sliderSettings}>
-            {[...Array(5).keys()].map((index) => (
-              <div key={index + 1} className="interest-grid">
-                {/* 기존 매핑 로직 */}
-                <div style={{ display: 'flex' }}>
-                  {[...Array(3).keys()].map((articleIndex) => (
-                    <div key={articleIndex + 1} style={{ margin: '10px' }} className="interest-item">
-                      <h3> 기사 제목ㄹㅇㅎㄹ옿ㄹ옿ㄹ {articleIndex + 1}</h3>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </Slider>
+  {Array.from({ length: 5 }).map((_, index) => (
+    <div key={index + 1} className="interest-grid">
+      {/* 기존 매핑 로직 */}
+      <div style={{ display: 'flex' }}>
+        {Array.from({ length: 3 }).map((_, articleIndex) => (
+          <div key={articleIndex + 1} style={{ margin: '10px' }} className="interest-item">
+            <h3>{topRecommended[3*index+articleIndex].title}</h3>
+            <Link to={`/detail/${topRecommended.article_id}`}></Link>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</Slider>
+
         </div>
       </div>
       <div className="right-container">

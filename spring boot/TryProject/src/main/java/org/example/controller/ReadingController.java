@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,8 +81,11 @@ public class ReadingController {
     }
 
     @RequestMapping("/getRecommendation/{user_id}/{article_id}")
-    public ArticleDTO getRecommendation(@PathVariable String user_id,@PathVariable Integer article_id) {
-        return (ArticleDTO) readingMapper.getRecommendation(user_id, article_id);
+    public ArrayList<ArticleDTO> getRecommendation(@PathVariable String user_id, @PathVariable Integer article_id) {
+        // getRecommendation이 ArrayList를 반환하는 것으로 가정
+        ArrayList<ArticleDTO> articleDTOList = (ArrayList<ArticleDTO>) readingMapper.getRecommendation(user_id, article_id);
+
+        return articleDTOList;
     }
 
 }
