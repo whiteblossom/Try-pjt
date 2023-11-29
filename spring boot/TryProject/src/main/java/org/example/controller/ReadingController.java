@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reading")
@@ -88,5 +90,14 @@ public class ReadingController {
         return articleDTOList;
     }
 
+    @GetMapping("/genderData")
+    public List<Map<String, Object>> getGenderData(@RequestParam("article_id") int article_id) {
+        return readingMapper.getGenderData(article_id);
+    }
+
+    @GetMapping("/ageData")
+    public List<Map<String, Object>> getAgeData(@RequestParam("article_id") int article_id) {
+        return readingMapper.getAgeData(article_id);
+    }
 }
 

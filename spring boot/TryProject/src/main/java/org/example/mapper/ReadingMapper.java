@@ -122,6 +122,33 @@ public interface ReadingMapper {
             "LIMIT 15;\n")
     List<ArticleDTO> getRecommendation(@Param("user_id") String user_id,@Param("article_id") Integer article_id);
 
+
+    @Select("SELECT gender, COUNT(*) as count " +
+            "FROM news.logdata " +
+            "JOIN news.user ON news.logdata.user_id = news.user.user_id " +
+            "WHERE news.logdata.article_id = #{article_id} " +
+            "GROUP BY gender")
+    List<Map<String, Object>> getGenderData(@Param("article_id") int article_id);
+
+    @Select("SELECT " +
+            "  CASE " +
+            "    WHEN age BETWEEN 10 AND 19 THEN '10대' " +
+            "    WHEN age BETWEEN 20 AND 29 THEN '20대' " +
+            "    WHEN age BETWEEN 30 AND 39 THEN '30대' " +
+            "    WHEN age BETWEEN 40 AND 49 THEN '40대' " +
+            "    WHEN age BETWEEN 50 AND 59 THEN '50대' " +
+            "    WHEN age >= 60 THEN '60대 이상' " +
+            "    ELSE '기타' " +
+            "  END AS age_group, " +
+            "  COUNT(news.logdata.user_id) AS count " +
+            "FROM " +
+            "  news.user " +
+            "LEFT JOIN " +
+            "  news.logdata ON news.logdata.user_id = news.user.user_id AND news.logdata.article_id = #{article_id} " +
+            "GROUP BY age_group " +
+            "ORDER BY age_group")
+    List<Map<String, Object>> getAgeData(@Param("article_id") int articleId);
+
 }
 
 

@@ -15,7 +15,8 @@ const DetailPage = () => {
   const [newreommend, setRecommend] = useState(0);
   const [headlines, setHeadlines] = useState([]);
   const [topRecommended, setTopRecommended] = useState([]);
-
+  const [ageData, setAgeData] = useState([]);
+  const [genderData, setGenderData] = useState([]);
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
   
@@ -115,6 +116,27 @@ const DetailPage = () => {
     };
   }, [article_id, user_id]);
 
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        // 연령별 데이터 가져오기
+        const ageResponse = await fetch(`/api/reading/ageData?article_id=${article_id}`);
+        const ageChartData = await ageResponse.json();
+        setAgeData(ageChartData);
+  
+        // 성별 데이터 가져오기
+        const genderResponse = await fetch(`/api/reading/genderData?article_id=${article_id}`);
+        const genderChartData = await genderResponse.json();
+        setGenderData(genderChartData);
+      } catch (error) {
+        console.error('Error fetching chart data:', error.message);
+      }
+    };
+  
+    fetchChartData();
+  }, [article_id]);
+  
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -123,6 +145,7 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
+  
   const likeImageUrl = process.env.PUBLIC_URL + '/img/like.png';
   const dislikeImageUrl = process.env.PUBLIC_URL + '/img/dislike.png';
 
@@ -242,24 +265,24 @@ const DetailPage = () => {
           ))}
         </ul> 
         <div className="chart-container">
-          <h2>연령별 차트</h2>
-          <ChartComponent
-            data={{
-              labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'],
-              values: [10, 20, 30, 40, 50, 60],
-            }}
-            chartType="bar"
-          />
-          <h2>성별 차트</h2>
-          <ChartComponent
-            data={{
-              labels: ['남성', '여성'], // 실제 데이터로 대체하세요
-              values: [45, 55], // 실제 데이터로 대체하세요
-            }}
-            chartType="pie"
-          />
-        </div>
+        <h2>연령별 차트</h2>
+        <ChartComponent
+          data={{
+            labels: ageData.map(item => item.age_group),
+            values: ageData.map(item => item.count),
+          }}
+          chartType="bar"
+        />
+        <h2>성별 차트</h2>
+        <ChartComponent
+          data={{
+            labels: genderData.map(item => item.gender),
+            values: genderData.map(item => item.count),
+          }}
+          chartType="pie"
+        />
       </div>
+    </div>
     </div>
   );
 };

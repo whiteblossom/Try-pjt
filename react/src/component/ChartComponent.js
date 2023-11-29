@@ -6,6 +6,11 @@ import Chart from 'chart.js/auto';
 const ChartComponent = ({ data, chartType }) => {
   const chartRef = useRef(null);
 
+  // 데이터가 비어 있는 경우 0으로 초기화
+  if (!data.values) {
+    data.values = Array(data.labels.length).fill(0);
+  }
+
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
 
@@ -30,7 +35,8 @@ const ChartComponent = ({ data, chartType }) => {
               scales: {
                 y: {
                   beginAtZero: true,
-                  max: 100,
+                  min: 0,
+                  max: 10,
                   grid: {
                     display: false, // y-축 격자 표시 여부
                   },
@@ -41,10 +47,10 @@ const ChartComponent = ({ data, chartType }) => {
         : new Chart(ctx, {
             type: 'pie',
             data: {
-              labels: ['남성', '여성'], // 실제 데이터로 대체하세요
+              labels: ['여성', '남성'],
               datasets: [
                 {
-                  data: data.values, // 실제 데이터로 대체하세요
+                  data: data.values, 
                   backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
                   borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
                   borderWidth: 1,
