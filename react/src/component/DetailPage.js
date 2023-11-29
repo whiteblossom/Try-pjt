@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
+import ChartComponent from './ChartComponent';
 
 const DetailPage = () => {
   const { article_id } = useParams();
@@ -15,7 +16,6 @@ const DetailPage = () => {
   const [headlines, setHeadlines] = useState([]);
   const [topRecommended, setTopRecommended] = useState([]);
 
-
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
 
@@ -26,12 +26,11 @@ const DetailPage = () => {
       await fetchHeadlines();
       await addLogData();
       setTimeout(500);
-      await fetchTopRecommended(); 
+      await fetchTopRecommended();
     };
 
     const fetchDetailNews = async (type) => {
       try {
-        
         const response = await fetch(`/api/articles/detail/${article_id}`);
         const articles = await response.json();
         NewData = { ...news, articles };
@@ -62,17 +61,17 @@ const DetailPage = () => {
       }
     };
 
-      //헤드라인
-      const fetchHeadlines = async () => {
-        try {
-          const response = await fetch('/api/articles/headline'); 
-          const headlinesData = await response.json();
-          setHeadlines(headlinesData);
-        } catch (error) {
-          console.error('Error fetching headlines:', error.message);
-        }
-      };
-  
+    // 헤드라인
+    const fetchHeadlines = async () => {
+      try {
+        const response = await fetch('/api/articles/headline');
+        const headlinesData = await response.json();
+        setHeadlines(headlinesData);
+      } catch (error) {
+        console.error('Error fetching headlines:', error.message);
+      }
+    };
+
     const addLogData = async () => {
       try {
         if (user_id) {
@@ -83,11 +82,9 @@ const DetailPage = () => {
               'Content-Type': 'application/json',
             },
           });
-          await fetch(`/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`,{
-            method:'POST',
+          await fetch(`/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`, {
+            method: 'POST',
           });
-
-
         } else {
           console.log('로그인 상태가 아닙니다.');
         }
@@ -95,28 +92,27 @@ const DetailPage = () => {
         console.error('Error adding log data:', error.message);
       }
     };
+
     fetchData();
 
-    
     const fetchTopRecommended = async () => {
       try {
         console.log(article_id);
         console.log(user_id);
         const response = await fetch(`/api/reading/getRecommendation/${user_id}/${article_id}`);
-        console.log(response)
+        console.log(response);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    console.log(1);
+        console.log(1);
         const topRecommendedData = await response.json();
         setTopRecommended(topRecommendedData);
-    
+
         console.log('Top recommended data:', topRecommendedData);
       } catch (error) {
         console.error('Error fetching top recommended articles:', error.message);
       }
     };
-
   }, [article_id, user_id]);
 
   const sliderSettings = {
@@ -166,9 +162,8 @@ const DetailPage = () => {
     } catch (error) {
       console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
     }
-
-    
   };
+
   return (
     <div className="main-container">
       <div className="left-container">
@@ -184,66 +179,73 @@ const DetailPage = () => {
               <p>{article.content}</p>
               {/* 좋아요와 싫어요 버튼 */}
               <div className="standard">
-  <button className="like" onClick={() => handleLikeDislike('like')}>
-    <img
-      src={likeImageUrl}
-      alt="추천"
-      style={{
-        width: newreommend === 1 ? '50px' : '40px',
-        height: newreommend === 1 ? '50px' : '40px',
-      }}
-    />
-    <br />
-    {likes}
-  </button>
-  <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
-    <img
-      src={dislikeImageUrl}
-      alt="비추천"
-      style={{
-        width: newreommend === 2 ? '50px' : '40px',
-        height: newreommend === 2 ? '50px' : '40px',
-      }}
-    />
-    <br />
-    {dislikes}
-  </button>
-</div>
-
+                <button className="like" onClick={() => handleLikeDislike('like')}>
+                  <img
+                    src={likeImageUrl}
+                    alt="추천"
+                    style={{
+                      width: newreommend === 1 ? '50px' : '40px',
+                      height: newreommend === 1 ? '50px' : '40px',
+                    }}
+                  />
+                  <br />
+                  {likes}
+                </button>
+                <button className="dislike" onClick={() => handleLikeDislike('dislike')}>
+                  <img
+                    src={dislikeImageUrl}
+                    alt="비추천"
+                    style={{
+                      width: newreommend === 2 ? '50px' : '40px',
+                      height: newreommend === 2 ? '50px' : '40px',
+                    }}
+                  />
+                  <br />
+                  {dislikes}
+                </button>
+              </div>
             </div>
           ))}
         <div className="interest-container">
-        <h2>추천 뉴스</h2>
+          <h2>추천 뉴스</h2>
           {/* 슬라이더 */}
           <Slider {...sliderSettings}>
-  {Array.from({ length: 5 }).map((_, index) => (
-    <div key={index + 1} className="interest-grid">
-      {/* 기존 매핑 로직 */}
-      <div style={{ display: 'flex' }}>
-        {Array.from({ length: 3 }).map((_, articleIndex) => (
-          <div key={articleIndex + 1} style={{ margin: '10px' }} className="interest-item">
-            <h3>{topRecommended[3*index+articleIndex].title}</h3>
-            <Link to={`/detail/${topRecommended.article_id}`}></Link>
-          </div>
-        ))}
-      </div>
-    </div>
-  ))}
-</Slider>
-
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index + 1} className="interest-grid">
+                {/* 기존 매핑 로직 수정 */}
+                <div style={{ display: 'flex' }}>
+                  {Array.from({ length: 3 }).map((_, articleIndex) => {
+                    const article = topRecommended[3 * index + articleIndex];
+                    if (article) {
+                      return (
+                        <div key={articleIndex + 1} style={{ margin: '10px' }} className="interest-item">
+                          <Link to={`/detail/${article.article_id}`}>{article.title}</Link>
+                        </div>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      <div className="right-container">
+        <h2>헤드라인 뉴스</h2>
+        <ul>
+          {headlines.map((headline) => (
+            <li key={headline.id}>
+              <Link to={`/detail/${headline.article_id}`}>{headline.title}</Link>
+            </li>
+          ))}
+        </ul> 
+        <div className="chart-container">
+          <h2>차트</h2>
+          <ChartComponent data={{ labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'], values: [10, 20, 30, 40, 50, 60] }} />
         </div>
       </div>
-      <div className="right-container">
-      <h2>헤드라인 뉴스</h2>
-            <ul>
-              {headlines.map((headline) => (
-                <li key={headline.id}>
-                  <Link to={`/detail/${headline.article_id}`}>{headline.title}</Link>
-                </li>
-              ))}
-            </ul>
       </div>
-
     </div>
   );
 };
