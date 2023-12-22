@@ -34,3 +34,4 @@ public class Main implements CommandLineRunner {
 
     }
 }
+//실행이 안되면 test를 삭제하고 실행하자
