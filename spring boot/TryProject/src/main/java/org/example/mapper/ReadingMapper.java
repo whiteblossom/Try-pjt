@@ -1,5 +1,3 @@
-
-
 package org.example.mapper;
 
 import org.apache.ibatis.annotations.*;
@@ -15,36 +13,43 @@ import java.time.LocalDateTime;
 @Mapper
 public interface ReadingMapper {
     @Select("SELECT recommendation FROM logdata WHERE article_id = #{article_id} AND user_id = #{user_id}")
+        // 특정 기사에 대한 사용자의 추천 여부를 조회하는 쿼리
     Integer findRecommendation(@Param("article_id") Integer article_id, @Param("user_id") String password);
 
     @Update("UPDATE logdata SET recommendation = #{recommendation.recommendation} WHERE user_id = #{recommendation.user_id} and article_id =#{recommendation.article_id}")
+        // 사용자의 추천, 비추천, 무응답에 따라 로그 데이터를 업데이트하는 쿼리
     void handleLikeDislike(@Param("recommendation") Recommendation recommendation);
 
     @Select("SELECT * FROM logdata WHERE user_id = #{user_id} AND article_id = #{article_id}")
+        // 사용자의 특정 기사에 대한 로그 데이터를 조회하는 쿼리
     LogData getLogData(@Param("user_id") String user_id, @Param("article_id") int article_id);
 
-    //로그데이터 넣기
     @Insert("INSERT INTO logdata (user_id, article_id, view_date) VALUES (#{user_id}, #{article_id}, #{view_date})")
+        // 사용자가 기사를 읽었을 때 로그 데이터를 삽입하는 쿼리
     void insertLogData(LogData logData);
 
-    //시간 업데이트
     @Update("UPDATE logdata SET view_date = #{view_date} WHERE user_id = #{user_id} AND article_id = #{article_id}")
+        // 사용자가 기사를 읽었을 때 로그 데이터의 조회 날짜를 업데이트하는 쿼리
     void updateLogDataViewdate(@Param("user_id") String user_id, @Param("article_id") int article_id, @Param("view_date") LocalDateTime view_date);
 
-    //조회수 계산
     @Select("SELECT COUNT(*) FROM logdata WHERE article_id = #{article_id}")
+        // 특정 기사의 조회수를 조회하는 쿼리
     int getArticleViews(@Param("article_id") int article_id);
 
     @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 1 AND article_id = #{article_id}")
+        // 특정 기사에 대한 추천 수를 조회하는 쿼리
     int getLike(@Param("article_id") int article_id);
 
     @Select("SELECT COUNT(*) FROM logdata WHERE recommendation = 2 AND article_id = #{article_id}")
+        // 특정 기사에 대한 비추천 수를 조회하는 쿼리
     int getDisLike(@Param("article_id") int article_id);
 
     @Update("SET @decayRate = 0.95")
+        // 로그 데이터의 키워드 가중치 감소율을 설정하는 쿼리
     void setDecayRate();
 
     @Update("UPDATE news.userkeyword SET count = GREATEST(ROUND(count * @decayRate, 3), 0.07) WHERE user_id = #{user_id}")
+        // 사용자의 키워드 가중치를 업데이트하는 쿼리
     void updateKeywordCount(@Param("user_id") String user_id);
 
     @Update("UPDATE article a\n" +
@@ -80,10 +85,11 @@ public interface ReadingMapper {
             ") AS result2 ON a.article_id = result2.article_id\n" +
             "SET a.recommended_score = ROUND(result1.recommended_score * result2.recommendation_1_ratio, 2)\n" +
             "WHERE a.article_id = #{article_id};")
+        // 기사의 추천 점수를 업데이트하는 쿼리
     void r_update(@Param("article_id") Integer article_id);
 
-
     @Insert("INSERT INTO news.userkeyword (user_id, keyword_id, count) SELECT ld.user_id, ak.keyword_id, 1 FROM news.logdata ld JOIN news.articlekeyword ak ON ld.article_id = ak.article_id WHERE ld.user_id = #{user_id} AND ld.article_id = #{article_id} ON DUPLICATE KEY UPDATE count = count + 1")
+        // 사용자의 키워드를 업데이트하는 쿼리
     void updateKeyword(@Param("article_id") int article_id, @Param("user_id") String user_id);
 
     @Select("SELECT\n" +
@@ -156,14 +162,15 @@ public interface ReadingMapper {
             "ORDER BY\n" +
             "    derived_table.recommended_score / (SELECT SUM(recommended_score) FROM article) * 24 + RAND() DESC\n" +
             "LIMIT 15;\n")
-    List<ArticleDTO> getRecommendation(@Param("user_id") String user_id,@Param("article_id") Integer article_id);
-
+        // 사용자에게 추천할 기사를 조회하는 쿼리
+    List<ArticleDTO> getRecommendation(@Param("user_id") String user_id, @Param("article_id") Integer article_id);
 
     @Select("SELECT gender, COUNT(*) as count " +
             "FROM news.logdata " +
             "JOIN news.user ON news.logdata.user_id = news.user.user_id " +
             "WHERE news.logdata.article_id = #{article_id} " +
             "GROUP BY gender")
+        // 특정 기사를 읽은 사용자의 성별 분포를 조회하는 쿼리
     List<Map<String, Object>> getGenderData(@Param("article_id") int article_id);
 
     @Select("SELECT " +
@@ -182,8 +189,6 @@ public interface ReadingMapper {
             "  news.logdata ON news.logdata.user_id = news.user.user_id AND news.logdata.article_id = #{article_id} " +
             "GROUP BY age_group " +
             "ORDER BY age_group")
+        // 특정 기사를 읽은 사용자의 연령대 분포를 조회하는 쿼리
     List<Map<String, Object>> getAgeData(@Param("article_id") int articleId);
-
 }
-
-

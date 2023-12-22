@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 import ChartComponent from './ChartComponent';
 import { dataDomain } from "./common";
 
-
-
 const DetailPage = () => {
+  // URL 파라미터(article_id)를 가져옴
   const { article_id } = useParams();
+  
+  // 상태 변수 초기화
   const [news, setDetailNews] = useState({ articles: [], content: '' });
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
@@ -23,6 +24,7 @@ const DetailPage = () => {
   let NewData;
   const user_id = sessionStorage.getItem('user_id');
   
+  // 컴포넌트가 마운트되거나 article_id, user_id가 변경될 때 실행되는 useEffect
   useEffect(() => {
     const fetchData = async () => {
       await fetchDetailNews();
@@ -34,24 +36,25 @@ const DetailPage = () => {
     };
 
     const fetchDetailNews = async (type) => {
-      //기사의 기본적인 내용
+      // 기사의 기본적인 내용을 가져옴
       try {
-        //데이터베이스에서 기사id에 맞는 기사를 가져옴
+        // 데이터베이스에서 기사 id에 맞는 기사를 가져옴
         const response = await fetch(`${dataDomain}/api/articles/detail/${article_id}`);
         const articles = await response.json();
         NewData = { ...news, articles };
         setDetailNews(NewData);
 
-        //기사의 추천수를 가져옴
+        // 기사의 추천수를 가져옴
         const responselike = await fetch(`${dataDomain}/api/reading/like/${article_id}`);
         
-        //기사의 비추천수를 가져옴
+        // 기사의 비추천수를 가져옴
         const responsedislike = await fetch(`${dataDomain}/api/reading/dislike/${article_id}`);
         const like = await responselike.json();
         setLikes(like);
         const dislike = await responsedislike.json();
         setDislikes(dislike);
-        //user가 해당 article에 추천,비추천,무응답 중 무었을 했는지 알 수 있음
+
+        // user가 해당 article에 추천, 비추천, 무응답 중 무었을 했는지 알 수 있음
         const recommendresponse = await fetch(`${dataDomain}/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
         const number = await recommendresponse.json();
         setRecommend(number);
@@ -61,7 +64,7 @@ const DetailPage = () => {
     };
 
     const fetchArticleViews = async () => {
-      //기사의 조회수 확인
+      // 기사의 조회수 확인
       try {
         const response = await fetch(`${dataDomain}/api/reading/${article_id}/views`);
         const articleViews = await response.json();
@@ -73,8 +76,7 @@ const DetailPage = () => {
 
     // 헤드라인
     const fetchHeadlines = async () => {
-      //헤드라인 기사들의 목록을 가져옴
-
+      // 헤드라인 기사들의 목록을 가져옴
       try {
         const response = await fetch(`${dataDomain}/api/articles/headline`);
         const headlinesData = await response.json();
@@ -85,7 +87,7 @@ const DetailPage = () => {
     };
 
     const addLogData = async () => {
-      //사용자의 활동로그를 로그데이터에 추가함
+      // 사용자의 활동로그를 로그데이터에 추가함
       try {
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
@@ -109,7 +111,7 @@ const DetailPage = () => {
     fetchData();
 
     const fetchTopRecommended = async () => {
-      //기사의 recommendedscore를 계산
+      // 기사의 recommendedscore를 계산
       try {
         const r_score = await fetch(`${dataDomain}/api/reading/recommendedscore/${article_id}`);
         const response = await fetch(`${dataDomain}/api/reading/getRecommendation/${user_id}/${article_id}`);
@@ -124,9 +126,10 @@ const DetailPage = () => {
     };
   }, [article_id, user_id]);
 
+  // article_id가 변경될 때 실행되는 useEffect
   useEffect(() => {
     const fetchChartData = async () => {
-      //차트에 관련된 데이터 가져오기
+      // 차트에 관련된 데이터 가져오기
       try {
         // 연령별 데이터 가져오기
         const ageResponse = await fetch(`${dataDomain}/api/reading/ageData?article_id=${article_id}`);
@@ -153,12 +156,12 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
-  //추천 비추천 이미지 불러오기
+  // 추천 비추천 이미지 불러오기
   const likeImageUrl = process.env.PUBLIC_URL + '/img/like.png';
   const dislikeImageUrl = process.env.PUBLIC_URL + '/img/dislike.png';
 
   const handleLikeDislike = async (type) => {
-    //로그에 대해 추천 비추천 무응답을 비교하여 각 반응에따라 이미지의 크기를 조절과 데이터베이스에 업데이트
+    // 로그에 대해 추천, 비추천, 무응답을 비교하여 각 반응에 따라 이미지의 크기를 조절하고 데이터베이스에 업데이트
     try {
       const response = await fetch(`${dataDomain}/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
       const number = await response.json();
@@ -182,7 +185,7 @@ const DetailPage = () => {
           recommendation: newRecommendation,
         }),
       });
-      //기사의 추천수와 비추천수 가져옴
+      // 기사의 추천수와 비추천수 가져옴
       const responselike = await fetch(`${dataDomain}/api/reading/like/${article_id}`);
       const responsedislike = await fetch(`${dataDomain}/api/reading/dislike/${article_id}`);
       const like = await responselike.json();
@@ -196,7 +199,7 @@ const DetailPage = () => {
     }
   };
 
-  //웹페이지
+  // 웹페이지 렌더링
   return (
     <div className="main-container">
       <div className="left-container">
@@ -264,7 +267,7 @@ const DetailPage = () => {
             ))}
           </Slider>
         </div>
-        </div>
+      </div>
       <div className="right-container">
         <h2>헤드라인 뉴스</h2>
         <ul>
@@ -275,24 +278,24 @@ const DetailPage = () => {
           ))}
         </ul> 
         <div className="chart-container">
-        <h2>연령별 차트</h2>
-        <ChartComponent
-          data={{
-            labels: ageData.map(item => item.age_group),
-            values: ageData.map(item => item.count),
-          }}
-          chartType="bar"
-        />
-        <h2>성별 차트</h2>
-        <ChartComponent
-          data={{
-            labels: genderData.map(item => item.gender),
-            values: genderData.map(item => item.count),
-          }}
-          chartType="pie"
-        />
+          <h2>연령별 차트</h2>
+          <ChartComponent
+            data={{
+              labels: ageData.map(item => item.age_group),
+              values: ageData.map(item => item.count),
+            }}
+            chartType="bar"
+          />
+          <h2>성별 차트</h2>
+          <ChartComponent
+            data={{
+              labels: genderData.map(item => item.gender),
+              values: genderData.map(item => item.count),
+            }}
+            chartType="pie"
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };

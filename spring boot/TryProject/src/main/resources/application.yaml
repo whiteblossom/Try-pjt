@@ -1,5 +1,6 @@
 spring:
   datasource:
+    #DB url과 유저이름&패스워드
     url: jdbc:mysql://localhost:3306/news
     #url: jdbc:mysql://210.110.33.222:3306/news
     driver-class-name: com.mysql.cj.jdbc.Driver

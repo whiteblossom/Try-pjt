@@ -1,6 +1,6 @@
-// SignupPage.js
+//SignupPage.js
 import React, { useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/SignupPage.css';
 import { dataDomain } from "./common";
 
@@ -13,6 +13,7 @@ const SignupPage = () => {
   const [gender, setGender] = useState('M');
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null); // 추가: 아이디 중복 여부
 
+  // 아이디 중복 확인
   const handleUsernameCheck = async () => {
     if (username.length < 4) {
       // 길이가 4자리 미만인 경우 중복 확인을 하지 않고, 중복 가능한 상태로 처리
@@ -38,12 +39,12 @@ const SignupPage = () => {
         setIsUsernameAvailable(!data.exists);
       }
     } catch (error) {
+      console.error('중복 확인 에러:', error.message);
     }
   };
 
+  // 회원가입 처리
   const handleSignup = async () => {
-    // Add your signup logic here, including validation checks
-    console.log('회원가입 시도:', { username, password, age, gender });
     if (password !== confirmPassword) {
       // 사용자에게 오류 메시지 표시
       alert('비밀번호가 일치하지 않습니다.');
@@ -51,7 +52,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const response =   fetch(`${dataDomain}/api/users/signup`, {
+      await fetch(`${dataDomain}/api/users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,23 +63,20 @@ const SignupPage = () => {
           age,
           gender,
         }),
-      }  ); 
-      setTimeout(navigate('/login'), 500 ) ;
-
+      });
+      // 회원가입 완료 후 로그인 페이지로 이동
+      setTimeout(() => navigate('/login'), 500);
     } catch (error) {
       console.error('회원가입 실패:', error.message);
       // 실패 시 사용자에게 알림을 추가하거나 다른 처리를 수행하세요
     }
-
-    
-    // return null;
   };
 
   return (
     <div className="signup-container">
       <h1>회원가입</h1>
       <form className="signup-form">
-      <label>
+        <label>
           아이디
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
           <button type="button" onClick={handleUsernameCheck}>중복 확인</button>
@@ -107,8 +105,8 @@ const SignupPage = () => {
         <label>
           성별
           <p>
-          <input className='gender' type="radio" name="gender" value="M"checked onChange={(e) => setGender(e.target.value)} />남자
-          <input className='gender' type="radio" name="gender" value="F" onChange={(e) => setGender(e.target.value)} />여자
+            <input className='gender' type="radio" name="gender" value="M" checked onChange={(e) => setGender(e.target.value)} />남자
+            <input className='gender' type="radio" name="gender" value="F" onChange={(e) => setGender(e.target.value)} />여자
           </p>
         </label>
         <br />

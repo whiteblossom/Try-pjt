@@ -1,15 +1,18 @@
-
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 const ChartComponent = ({ data, chartType }) => {
+  // 차트를 렌더링할 캔버스 엘리먼트에 대한 참조
   const chartRef = useRef(null);
 
+  // 데이터의 최대값 계산
   const maxValue = Math.max(...data.values);
 
   useEffect(() => {
+    // 캔버스의 2D 렌더링 컨텍스트를 가져옴
     const ctx = chartRef.current.getContext('2d');
 
+    // 차트 인스턴스 생성
     const chart =
       chartType === 'bar'
         ? new Chart(ctx, {
@@ -53,12 +56,14 @@ const ChartComponent = ({ data, chartType }) => {
               ],
             },
           });
+
+    // 컴포넌트가 언마운트될 때 차트 인스턴스 제거
     return () => {
-      // 컴포넌트 언마운트 시 차트 인스턴스 제거
       chart.destroy();
     };
   }, [data, chartType]);
 
+  // 렌더링할 캔버스 엘리먼트 반환
   return <canvas ref={chartRef} />;
 };
 

@@ -47,7 +47,7 @@
 }
 
 .my-page-info td:first-child {
-  background-color: #f9f9f9; /* 첫 번째 열의 배경색 */
+  background-color: #f9f9f9;
 }
 
 .my-page-info td a {
@@ -80,7 +80,6 @@
   background-color: #366BB5;
 }
 
-/* Modal Styles */
 .my-page-modal-content {
   width: 380px;
   height: 150px;
