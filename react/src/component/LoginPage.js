@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../css/LoginPage.css';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
+import { dataDomain } from "./common";
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [user_id, setUsername] = useState('');
@@ -14,8 +15,9 @@ const LoginPage = ({ setIsLoggedIn }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/users/login', { user_id, password });
-      console.log('로그인 성공:', response.data);
+      //user의 id와 password가 데이터베이스에 있는것과 일치하는지 확인
+      const response = await axios.post(`${dataDomain}/api/users/login`, { user_id, password });
+
       setIsLoggedIn(true);
       setLoginSuccess('로그인 성공!');
       setLoginError(null);

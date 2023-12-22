@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import '../css/MyPage.css';
 import { Link } from 'react-router-dom';
+import { dataDomain } from "./common";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const MyPage = () => {
   const handleConfirmWithdrawal = async () => {
     try {
       // Spring Boot 서버에 DELETE 요청 보내기
-      const response = await fetch(`/api/users/delete/${user_id}`, {
+      const response = await fetch(`${dataDomain}/api/users/delete/${user_id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -69,15 +70,15 @@ const MyPage = () => {
   
         if (userData.isLoggedIn && user_id) {
           // Fetch user information
-          const userInfoResponse = await fetch(`/api/users/${user_id}`);
+          const userInfoResponse = await fetch(`${dataDomain}/api/users/${user_id}`);
           const userInfoData = await userInfoResponse.json();
   
           // Fetch user interests
-          const interestsResponse = await fetch(`/api/users/interests/${user_id}`);
+          const interestsResponse = await fetch(`${dataDomain}/api/users/interests/${user_id}`);
           const interestsData = await interestsResponse.json();
   
           // Fetch user recent news
-          const recentNewsResponse = await fetch(`/api/users/recent-news/${user_id}`);
+          const recentNewsResponse = await fetch(`${dataDomain}/api/users/recent-news/${user_id}`);
           const recentNewsData = await recentNewsResponse.json();
   
           // Update state
@@ -101,37 +102,56 @@ const MyPage = () => {
     fetchData();
   }, [userData.isLoggedIn]);
   
-
   const { user_id, age, gender, interests = [], recentNews = [] } = userData.userInfo;
+ // 성별 표시를 "여자" 또는 "남자"로 변환
+ const genderLabel = gender === 'F' ? '여자' : gender === 'M' ? '남자' : '';
 
   return (
     <div className="my-page-container">
       <h2 className="my-page-header">마이 페이지</h2>
       <div className="my-page-info">
-      <p>아이디: {user_id}</p>
-        <p>나이: {age}</p>
-        <p>성별: {gender}</p>
-        <p><br />
-          관심사 <br />{interests.slice(0, 10).map((interest, index) => (
-            <span key={index}>{`#${interest} `}</span>
-          ))}
-        </p>
-        <p><br />
-          최근 본 뉴스 <br />{recentNews.slice(0, 10).map((news, index) => (
-             <span key={index}>
-             <Link to={`/detail/${news.article_id}`}>
-               {`${news.title} `}
-             </Link>
-             <br />
-           </span>
-          ))}
-        </p>
+        <table>
+          <tbody>
+            <tr>
+              <td>아이디</td>
+              <td>{user_id}</td>
+            </tr>
+            <tr>
+              <td>나이</td>
+              <td>{age}</td>
+            </tr>
+            <tr>
+              <td>성별</td>
+              <td>{genderLabel}</td>
+            </tr>
+            <tr>
+              <td>관심 태그</td>
+              <td>
+                {interests.slice(0, 10).map((interest, index) => (
+                  <span key={index}>{`#${interest} `}</span>
+                ))}
+              </td>
+            </tr>
+            <tr>
+              <td>최근 본 뉴스</td>
+              <td>
+                {recentNews.slice(0, 10).map((news, index) => (
+                  <span key={index}>
+                    <Link to={`/detail/${news.article_id}`}>
+                      {`${news.title} `}
+                    </Link>
+                    <br />
+                  </span>
+                ))}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div className="my-page-buttons">
         <button onClick={handleWithdrawal}>회원 탈퇴</button>
       </div>
 
-      {/* 회원 탈퇴 확인 모달 */}
       <Modal
         isOpen={isWithdrawalModalOpen}
         onRequestClose={handleCloseModal}
@@ -147,4 +167,5 @@ const MyPage = () => {
     </div>
   );
 };
+
 export default MyPage;

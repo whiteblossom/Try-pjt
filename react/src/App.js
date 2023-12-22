@@ -10,6 +10,8 @@ import MyPage from './component/MyPage';
 import './App.css';
 import SearchPage from './component/SearchPage';
 import CategoryPage from './component/CategoryPage';
+import { dataDomain } from './component/common';
+
 
 
 const App = () => {
@@ -19,7 +21,7 @@ useEffect(() => {
   // 컴포넌트가 마운트될 때 로그인 상태를 확인
   const checkLoginStatus = async () => {
     try {
-      const response =  axios.get('/api/auth/user');
+      const response =  axios.get(`${dataDomain}/api/auth/user`);
       //현재 사용자 ID 세션 확인
       console.log(sessionStorage.getItem('user_id'));
       if ( sessionStorage.getItem('user_id')!=null ) setIsLoggedIn(true); 
@@ -102,7 +104,7 @@ useEffect(() => {
           </Routes>
         </div>
         <div className="footer">
-          © 2023 News App. All rights reserved.
+          © 2023 | News Web | TRY
         </div>
       </div>
     </Router>

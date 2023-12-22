@@ -32,6 +32,7 @@ public class ArticleController {
     }
 
     @GetMapping("/detail/{article_id}")
+    /* article_id(기사의 id)에 맞는 기사의 정보들을 가져옴 */
     public ArrayList<Article> getArticles(@PathVariable("article_id") int article_id) {
         return articleMapper.findArticle(article_id);
     }

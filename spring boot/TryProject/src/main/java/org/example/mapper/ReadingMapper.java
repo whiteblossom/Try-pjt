@@ -47,6 +47,42 @@ public interface ReadingMapper {
     @Update("UPDATE news.userkeyword SET count = GREATEST(ROUND(count * @decayRate, 3), 0.07) WHERE user_id = #{user_id}")
     void updateKeywordCount(@Param("user_id") String user_id);
 
+    @Update("UPDATE article a\n" +
+            "LEFT JOIN (\n" +
+            "  -- 첫 번째 쿼리\n" +
+            "  SELECT \n" +
+            "    a.article_id,\n" +
+            "    ROUND(LOG10(COALESCE(ld.log_count, 0) + 2), 2) AS recommended_score\n" +
+            "  FROM \n" +
+            "    article a\n" +
+            "  LEFT JOIN (\n" +
+            "    SELECT article_id, COUNT(*) AS log_count\n" +
+            "    FROM news.logdata\n" +
+            "    GROUP BY article_id\n" +
+            "  ) ld ON a.article_id = ld.article_id\n" +
+            ") AS result1 ON a.article_id = result1.article_id\n" +
+            "LEFT JOIN (\n" +
+            "  -- 두 번째 쿼리\n" +
+            "  SELECT \n" +
+            "    a.article_id, \n" +
+            "    COUNT(*) + 1 AS total_log_count, \n" +
+            "    COUNT(CASE WHEN l.recommendation = 1 THEN 1 END) + 1 AS recommendation_1_count,\n" +
+            "    CAST((COUNT(CASE WHEN l.recommendation = 1 THEN 1 END) + 1) / (COUNT(*) + 1) AS DECIMAL(10, 2)) AS recommendation_1_ratio\n" +
+            "  FROM \n" +
+            "    news.logdata l\n" +
+            "  JOIN (\n" +
+            "    SELECT article_id, COUNT(*) AS log_count\n" +
+            "    FROM news.logdata\n" +
+            "    GROUP BY article_id\n" +
+            "  ) a ON l.article_id = a.article_id\n" +
+            "  GROUP BY\n" +
+            "    a.article_id\n" +
+            ") AS result2 ON a.article_id = result2.article_id\n" +
+            "SET a.recommended_score = ROUND(result1.recommended_score * result2.recommendation_1_ratio, 2)\n" +
+            "WHERE a.article_id = #{article_id};")
+    void r_update(@Param("article_id") Integer article_id);
+
+
     @Insert("INSERT INTO news.userkeyword (user_id, keyword_id, count) SELECT ld.user_id, ak.keyword_id, 1 FROM news.logdata ld JOIN news.articlekeyword ak ON ld.article_id = ak.article_id WHERE ld.user_id = #{user_id} AND ld.article_id = #{article_id} ON DUPLICATE KEY UPDATE count = count + 1")
     void updateKeyword(@Param("article_id") int article_id, @Param("user_id") String user_id);
 
@@ -98,7 +134,7 @@ public interface ReadingMapper {
             "            FROM\n" +
             "                article a\n" +
             "            WHERE\n" +
-            "                a.article_id != 2\n" +
+            "                a.article_id != #{article_id}\n" +
             "        )\n" +
             "        SELECT\n" +
             "            ks.article_id,\n" +
@@ -132,13 +168,12 @@ public interface ReadingMapper {
 
     @Select("SELECT " +
             "  CASE " +
-            "    WHEN age BETWEEN 10 AND 19 THEN '10대' " +
+            "    WHEN age BETWEEN 0 AND 19 THEN '10대' " +
             "    WHEN age BETWEEN 20 AND 29 THEN '20대' " +
             "    WHEN age BETWEEN 30 AND 39 THEN '30대' " +
             "    WHEN age BETWEEN 40 AND 49 THEN '40대' " +
             "    WHEN age BETWEEN 50 AND 59 THEN '50대' " +
-            "    WHEN age >= 60 THEN '60대 이상' " +
-            "    ELSE '기타' " +
+            "    ELSE '60대 이상' " +
             "  END AS age_group, " +
             "  COUNT(news.logdata.user_id) AS count " +
             "FROM " +

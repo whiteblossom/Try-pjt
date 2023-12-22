@@ -20,8 +20,8 @@ const ChartComponent = ({ data, chartType }) => {
                 {
                   label: '연령대 비율',
                   data: data.values,
-                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                  borderColor: 'rgba(75, 192, 192, 1)',
+                  backgroundColor: 'rgba(75, 137, 220, 0.2)',
+                  borderColor: 'rgba(75, 137, 220, 1)',
                   borderWidth: 1,
                 },
               ],
@@ -42,12 +42,12 @@ const ChartComponent = ({ data, chartType }) => {
         : new Chart(ctx, {
             type: 'pie',
             data: {
-              labels: ['여성', '남성'],
+              labels: ['남성','여성'],
               datasets: [
                 {
                   data: data.values, 
-                  backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-                  borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                  backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                  borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
                   borderWidth: 1,
                 },
               ],

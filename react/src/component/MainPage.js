@@ -2,21 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { dataDomain } from "./common";
+
 const MainPage = () => {
   const [today, setToday] = useState(null);
   const [interests, setInterests] = useState([]);
-  const [articles, setArticles] = useState([]);
   const [headlines, setHeadlines] = useState([]);
   const [keywordArticles, setKeywordArticles] = useState({}); // 관심 키워드별 기사 저장
-
+  //세션에 저장되어있는 user_id를 확인
   const user_id = sessionStorage.getItem('user_id');
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const article = await axios.get('/api/articles/all');
-        const headline = await axios.get('/api/articles/headline');
-        setArticles(article.data);
+        //기사들중 최근 24시간내의 조회수가 가장 많은 기사 10개를 가져옴
+        const headline = await axios.get(`${dataDomain}/api/articles/headline`);
         setHeadlines(headline.data);
       } catch (error) {
         console.error('Error', error);
@@ -48,13 +48,15 @@ const MainPage = () => {
     fetchWeatherData();
 
     const UserInterests = async () => {
-      const interest = await axios.get(`/api/users/interests/${user_id}`);
+      //사용자의 관심태그정보를 가져옴
+      const interest = await axios.get(`${dataDomain}/api/users/interests/${user_id}`);
       setInterests(interest.data);
 
-      const keywordArticleMap = {}; // 관심 키워드별 기사를 저장할 객체
+      const keywordArticleMap = {}; // 관심 태그별 기사를 저장할 객체
       await Promise.all(
         interest.data.map(async (keyword) => {
-          const response = await axios.get(`/api/users/userArticle/${keyword}`);
+          //관심 태그별로 검색한 기사들을 매퍼형식으로 받아들임
+          const response = await axios.get(`${dataDomain}/api/users/userArticle/${keyword}`);
           keywordArticleMap[keyword] = response.data;
         })
       );
@@ -62,14 +64,6 @@ const MainPage = () => {
       setKeywordArticles(keywordArticleMap);
     };
     UserInterests();
-
-    const articletitle = async (keyword) => {
-    const article = axios.get(`/api/users/userArticle/${keyword}`).then(
-      response => { console.log( response.data ) ; return 1 ; }
-
-    );
-    // console.log(article);
-    }
   }, []);
 
   return (
@@ -87,7 +81,7 @@ const MainPage = () => {
             </ul>
           </div>
           <div className="interest-container">
-            <h2>관심 키워드 별 뉴스</h2>
+            <h2>관심 태그 별 뉴스</h2>
             <div className="interest-grid">
               { interests.slice(0,6).map((interest) => (
                 <div key={interest} className="interest-item">

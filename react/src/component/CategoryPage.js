@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { dataDomain } from "./common";
 
 const CategoryPage = () => {
   const { category_id } = useParams();
   const [categoryData, setCategoryData] = useState({ name: "", news: [] });
 
   useEffect(() => {
+    //데이터베이스에서 카테고리 별로 뉴스 기사를 가져옴
     const fetchCategoryNews = async () => {
       try {
-        const response = await fetch(`/api/articles/category/${category_id}`);
+        const response = await fetch(`${dataDomain}/api/articles/category/${category_id}`);
         if (!response.ok) {
           throw new Error('카테고리 뉴스를 가져오는 데 실패했습니다');
         }

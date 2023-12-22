@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import '../css/SignupPage.css';
+import { dataDomain } from "./common";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const response = await fetch(`/api/users/confirm/${username}`);
+      const response = await fetch(`${dataDomain}/api/users/confirm/${username}`);
       if (!response.ok) {
         throw new Error('중복 확인에 실패했습니다');
       }
@@ -50,7 +51,7 @@ const SignupPage = () => {
       return;
     }
     try {
-      const response =   fetch('/api/users/signup', {
+      const response =   fetch(`${dataDomain}/api/users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ const SignupPage = () => {
         <br />
         <label>
           나이
-          <input type="text" value={age} onChange={(e) => setAge(e.target.value)} />
+          <input type="number" min="1" max="100" value={age} onChange={(e) => setAge(e.target.value)} />
         </label>
         <br />
         <label>

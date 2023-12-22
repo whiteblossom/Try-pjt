@@ -5,6 +5,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 import ChartComponent from './ChartComponent';
+import { dataDomain } from "./common";
+
+
 
 const DetailPage = () => {
   const { article_id } = useParams();
@@ -31,20 +34,25 @@ const DetailPage = () => {
     };
 
     const fetchDetailNews = async (type) => {
+      //기사의 기본적인 내용
       try {
-        const response = await fetch(`/api/articles/detail/${article_id}`);
+        //데이터베이스에서 기사id에 맞는 기사를 가져옴
+        const response = await fetch(`${dataDomain}/api/articles/detail/${article_id}`);
         const articles = await response.json();
         NewData = { ...news, articles };
         setDetailNews(NewData);
 
-        // 추천 비추천
-        const responselike = await fetch(`/api/reading/like/${article_id}`);
-        const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
+        //기사의 추천수를 가져옴
+        const responselike = await fetch(`${dataDomain}/api/reading/like/${article_id}`);
+        
+        //기사의 비추천수를 가져옴
+        const responsedislike = await fetch(`${dataDomain}/api/reading/dislike/${article_id}`);
         const like = await responselike.json();
         setLikes(like);
         const dislike = await responsedislike.json();
         setDislikes(dislike);
-        const recommendresponse = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
+        //user가 해당 article에 추천,비추천,무응답 중 무었을 했는지 알 수 있음
+        const recommendresponse = await fetch(`${dataDomain}/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
         const number = await recommendresponse.json();
         setRecommend(number);
       } catch (error) {
@@ -53,8 +61,9 @@ const DetailPage = () => {
     };
 
     const fetchArticleViews = async () => {
+      //기사의 조회수 확인
       try {
-        const response = await fetch(`/api/reading/${article_id}/views`);
+        const response = await fetch(`${dataDomain}/api/reading/${article_id}/views`);
         const articleViews = await response.json();
         setViews(articleViews); // 조회수 업데이트
       } catch (error) {
@@ -64,8 +73,10 @@ const DetailPage = () => {
 
     // 헤드라인
     const fetchHeadlines = async () => {
+      //헤드라인 기사들의 목록을 가져옴
+
       try {
-        const response = await fetch('/api/articles/headline');
+        const response = await fetch(`${dataDomain}/api/articles/headline`);
         const headlinesData = await response.json();
         setHeadlines(headlinesData);
       } catch (error) {
@@ -74,16 +85,17 @@ const DetailPage = () => {
     };
 
     const addLogData = async () => {
+      //사용자의 활동로그를 로그데이터에 추가함
       try {
         if (user_id) {
           // user_id가 존재할 때만 fetch 요청 수행
-          await fetch(`/api/reading/${article_id}/read?user_id=${user_id}`, {
+          await fetch(`${dataDomain}/api/reading/${article_id}/read?user_id=${user_id}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
           });
-          await fetch(`/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`, {
+          await fetch(`${dataDomain}/api/reading/updatekeyword?article_id=${article_id}&user_id=${user_id}`, {
             method: 'POST',
           });
         } else {
@@ -97,19 +109,15 @@ const DetailPage = () => {
     fetchData();
 
     const fetchTopRecommended = async () => {
+      //기사의 recommendedscore를 계산
       try {
-        console.log(article_id);
-        console.log(user_id);
-        const response = await fetch(`/api/reading/getRecommendation/${user_id}/${article_id}`);
-        console.log(response);
+        const r_score = await fetch(`${dataDomain}/api/reading/recommendedscore/${article_id}`);
+        const response = await fetch(`${dataDomain}/api/reading/getRecommendation/${user_id}/${article_id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        console.log(1);
         const topRecommendedData = await response.json();
         setTopRecommended(topRecommendedData);
-
-        console.log('Top recommended data:', topRecommendedData);
       } catch (error) {
         console.error('Error fetching top recommended articles:', error.message);
       }
@@ -118,21 +126,21 @@ const DetailPage = () => {
 
   useEffect(() => {
     const fetchChartData = async () => {
+      //차트에 관련된 데이터 가져오기
       try {
         // 연령별 데이터 가져오기
-        const ageResponse = await fetch(`/api/reading/ageData?article_id=${article_id}`);
+        const ageResponse = await fetch(`${dataDomain}/api/reading/ageData?article_id=${article_id}`);
         const ageChartData = await ageResponse.json();
         setAgeData(ageChartData);
   
         // 성별 데이터 가져오기
-        const genderResponse = await fetch(`/api/reading/genderData?article_id=${article_id}`);
+        const genderResponse = await fetch(`${dataDomain}/api/reading/genderData?article_id=${article_id}`);
         const genderChartData = await genderResponse.json();
         setGenderData(genderChartData);
       } catch (error) {
         console.error('Error fetching chart data:', error.message);
       }
     };
-  
     fetchChartData();
   }, [article_id]);
   
@@ -145,15 +153,16 @@ const DetailPage = () => {
     slidesToScroll: 1,
   };
 
-  
+  //추천 비추천 이미지 불러오기
   const likeImageUrl = process.env.PUBLIC_URL + '/img/like.png';
   const dislikeImageUrl = process.env.PUBLIC_URL + '/img/dislike.png';
 
   const handleLikeDislike = async (type) => {
+    //로그에 대해 추천 비추천 무응답을 비교하여 각 반응에따라 이미지의 크기를 조절과 데이터베이스에 업데이트
     try {
-      const response = await fetch(`/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
+      const response = await fetch(`${dataDomain}/api/reading/recommend?article_id=${article_id}&user_id=${user_id}`);
       const number = await response.json();
-      // Determine new recommendation value based on the button type
+      // 버튼을 누르면 newRecommendation의 값이 바뀜 
       let newRecommendation;
       if (type === 'like') {
         newRecommendation = number === 1 ? 0 : 1;
@@ -161,8 +170,8 @@ const DetailPage = () => {
         newRecommendation = number === 2 ? 0 : 2;
       }
 
-      // Update recommendation on the backend
-      const putResponse = await fetch(`/api/reading/recommend`, {
+      // DB에 newRecommendation 저장 및 업데이트
+      const putResponse = await fetch(`${dataDomain}/api/reading/recommend`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -173,9 +182,9 @@ const DetailPage = () => {
           recommendation: newRecommendation,
         }),
       });
-
-      const responselike = await fetch(`/api/reading/like/${article_id}`);
-      const responsedislike = await fetch(`/api/reading/dislike/${article_id}`);
+      //기사의 추천수와 비추천수 가져옴
+      const responselike = await fetch(`${dataDomain}/api/reading/like/${article_id}`);
+      const responsedislike = await fetch(`${dataDomain}/api/reading/dislike/${article_id}`);
       const like = await responselike.json();
       setLikes(like);
       const dislike = await responsedislike.json();
@@ -183,10 +192,11 @@ const DetailPage = () => {
 
       setRecommend(newRecommendation);
     } catch (error) {
-      console.error('좋아요 또는 싫어요 처리 중 오류 발생:', error);
+      console.error('추천 또는 비추천 처리 중 오류 발생:', error);
     }
   };
 
+  //웹페이지
   return (
     <div className="main-container">
       <div className="left-container">

@@ -28,6 +28,7 @@ public class ReadingController {
     }
 
     @GetMapping("/recommend")
+    /*로그데이터테이블에서 user_id와 article_id가 일치하는 로그를 찾아 해당 user가 추천,비추천,무응답 중 무엇을 눌렀는지 판별*/
     public Integer findRecommendation(@RequestParam("article_id") Integer article_id, @RequestParam("user_id") String user_id) {
         Integer result = readingMapper.findRecommendation(article_id,user_id);
         // null이 반환되면 0으로 처리하거나 다른 기본값을 사용할 수 있습니다.
@@ -35,18 +36,25 @@ public class ReadingController {
     }
 
     @PutMapping("/recommend")
+    /*추천과 비추천,무응답 선택시에 따라 로그데이터가 변함*/
     public void handleLikeDislike(@RequestBody Recommendation recommendation) {
         readingMapper.handleLikeDislike(recommendation);
     }
     @GetMapping("/like/{article_id}")
+    /*article_id가 일치하는 기사에서 like의 개수를 count하여 개수만 알려줌 */
     public Integer findlike(@PathVariable("article_id") Integer article_id) {
         Integer result = readingMapper.getLike(article_id);
         return result;
     }
     @GetMapping("/dislike/{article_id}")
+    /*article_id가 일치하는 기사에서 dislike의 개수를 count하여 개수만 알려줌 */
     public Integer finddislike(@PathVariable("article_id") Integer article_id) {
         Integer result = readingMapper.getDisLike(article_id);
         return result;
+    }
+    @GetMapping("/recommendedscore/{article_id}")
+    public void recommended_update(@PathVariable("article_id") Integer article_id) {
+        readingMapper.r_update(article_id);
     }
     // 기사 읽으면 로그데이터 넣기
     @RequestMapping("/{article_id}/read")
