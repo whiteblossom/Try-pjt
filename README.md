@@ -1,6 +1,7 @@
-2023.11 ~ 2023.12 2달동안 진행한 프로젝트입니다.
+<h3>2023.11 ~ 2023.12 2달동안 진행한 프로젝트입니다.</h3>
+<br/>
 
-프로젝트 개요
+<h2>프로젝트 개요</h2>
 
 온라인 서비스에 필요한 추천 기능들이 점점 더 발전해가는 오늘날, 컨텐츠 추천에 핵심인 태그의 중요성과 효율적인 태깅의 필요성을 느꼈습니다.
 사용자의 관심 분야를 명시하는 태그와, 뉴스 기사의 내용을 요약하는 태그를 매칭하여, 
@@ -10,26 +11,25 @@
 
 
 
-프로젝트 기능
+<h2>프로젝트 기능</h2>
 
 
-뉴스 기사 데이터 크롤링
+<h3>뉴스 기사 데이터 크롤링</h3>
 
-기사 내용 키워드 자동 추출(GPT API)
+<h3>기사 내용 키워드 자동 추출(GPT API)</h3>
 
-기사 추천 알고리즘 개발
+<h3>기사 추천 알고리즘 개발</h3>
 
+<h3>로그인/로그아웃 기능</h3>
 
-로그인/로그아웃 기능
+<h3>회원가입/ 회원탈퇴 기능</h3>
 
-회원가입/ 회원탈퇴 기능
-
-마이페이지
+<h3>마이페이지</h3>
 
   － 사용자 정보 , 관심 태그 ,  최근 본 뉴스
   
 
-메인페이지 
+<h3>메인페이지</h3>
 
   －헤드라인/관심 태그 별 뉴스 보기
 
@@ -41,7 +41,7 @@
 
 
 
-디테일페이지 
+<h3>디테일페이지 </h3>
 
   －기사 상세 내용 보기
   
@@ -50,35 +50,29 @@
   －뉴스 추천 기능
   
   －연령별/성별 차트
+ 
+<br/>
+<h2>프로젝트 사용 기술</h2>
 
+  -데이터 크롤링 – Selenium, Beautiful Soup
 
+  -DBMS - MySQL
 
+  -API - GPT API, OpenWeather API
 
+  -프론트엔드 - React, ChartJs
 
+  -백엔드 - Spring Boot, MyBatis
 
+  -테스트 환경 - JUnit
 
+  -운영/배포 환경 - KT Cloud
 
-프로젝트 사용 기술
+  -협업 환경 - GitHub
 
-데이터 크롤링 – Selenium, Beautiful Soup
+  -개발 환경 - Visual Studio Code, IntelliJ IDEA, MySQL Workbench, Jupyter Notebook
 
-DBMS - MySQL
+<br/>
+<p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
-API - GPT API, OpenWeather API
-
-프론트엔드 - React, ChartJs
-
-백엔드 - Spring Boot, MyBatis
-
-테스트 환경 - JUnit
-
-운영/배포 환경 - KT Cloud
-
-협업 환경 - GitHub
-
-개발 환경 - Visual Studio Code, IntelliJ IDEA, MySQL Workbench, Jupyter Notebook
-
-
-kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.
-
-현재는 서버를 닫았습니다.
+<p>현재는 서버를 닫았습니다.</p>
