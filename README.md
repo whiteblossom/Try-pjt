@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/d819bf27-21a7-40d4-89d1-f2b262ae0c40)<h3>2023.11 ~ 2023.12 2달동안 진행한 프로젝트입니다.</h3>
 <br/>
 
 <h2>프로젝트 개요</h2>
@@ -75,8 +74,7 @@
 <br/>
 
 <h2>시스템 구성도</h2>
-![image](https://github.com/user-attachments/assets/69162aa3-4231-4e31-a6ed-49dca6adb664)
-
+![image](https://github.com/user-attachments/assets/d819bf27-21a7-40d4-89d1-f2b262ae0c40)<h3>2023.11 ~ 2023.12 2달동안 진행한 프로젝트입니다.</h3>
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
 <p>현재는 서버를 닫았습니다.</p>
