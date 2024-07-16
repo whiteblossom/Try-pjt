@@ -74,6 +74,8 @@
 <br/>
 
 <h2>시스템 구성도</h2>
+![image](https://github.com/user-attachments/assets/ea8583bd-8788-475c-bd8a-d45aa5166bdd.png)
+
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
 <p>현재는 서버를 닫았습니다.</p>
