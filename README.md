@@ -75,6 +75,8 @@
 
 <h2>시스템 구성도</h2>
 
+![news](https://github.com/user-attachments/assets/8d2950c7-36c8-4192-844f-d765136b0101)
+
 
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
