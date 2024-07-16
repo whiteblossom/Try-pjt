@@ -74,8 +74,7 @@
 <br/>
 
 <h2>시스템 구성도</h2>
-(https://github.com/user-attachments/assets/1bdeb0ea-d61d-455d-8887-92d461536505)
-
+https://github.com/whiteblossom/Try-pjt/issues/1#issue-2410921957
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
 <p>현재는 서버를 닫았습니다.</p>
