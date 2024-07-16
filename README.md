@@ -74,7 +74,7 @@
 <br/>
 
 <h2>시스템 구성도</h2>
-![news](https://github.com/user-attachments/assets/5004a50b-f1d2-4857-9279-213ee3d5ad43)
+https://cdn.discordapp.com/attachments/586483639240359936/1262739951993487441/news.png?ex=6697b1b9&is=66966039&hm=1b78ca0fe74de8f8809a260c581a57812a26eb513d1313bc64079670e393b7ea&
 
 
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
