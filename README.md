@@ -74,7 +74,8 @@
 <br/>
 
 <h2>시스템 구성도</h2>
-![image](https://github.com/user-attachments/assets/d819bf27-21a7-40d4-89d1-f2b262ae0c40)<h3>2023.11 ~ 2023.12 2달동안 진행한 프로젝트입니다.</h3>
+![image](https://github.com/user-attachments/assets/1bdeb0ea-d61d-455d-8887-92d461536505)
+
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
 <p>현재는 서버를 닫았습니다.</p>
