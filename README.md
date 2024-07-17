@@ -97,8 +97,7 @@
 
 <h2>수상</h2>
 
-![KakaoTalk_20240717_171421223](https://github.com/user-attachments/assets/c93a3f60-0893-424d-ab9c-c8f75447c231)
-
+<img src="![KakaoTalk_20240717_171421223](https://github.com/user-attachments/assets/c93a3f60-0893-424d-ab9c-c8f75447c231)" width="400" height="800" />
 
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
