@@ -99,6 +99,8 @@
 
 <img src="https://github.com/user-attachments/assets/c93a3f60-0893-424d-ab9c-c8f75447c231" width="500" height="700" />
 
+<br/>
+
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
 <p>현재는 서버를 닫았습니다.</p>
