@@ -73,7 +73,15 @@
 
 <br/>
 
+<h2>개발 타임라인</h2>
+
+![image](https://github.com/user-attachments/assets/5650d912-57cf-4d0f-adce-786df698f124)
+
 <h2>시스템 구성도</h2>
+
+![image](https://github.com/user-attachments/assets/1244689b-d4e6-48b9-8c65-162c826d53d0)
+
+<h2>최종 ERD</h2>
 
 ![news](https://github.com/user-attachments/assets/8d2950c7-36c8-4192-844f-d765136b0101)
 
