@@ -97,7 +97,7 @@
 
 <h2>수상</h2>
 
-<img src="(https://github.com/user-attachments/assets/c93a3f60-0893-424d-ab9c-c8f75447c231)" width="600" height="900" />
+<img src="https://github.com/user-attachments/assets/c93a3f60-0893-424d-ab9c-c8f75447c231" width="500" height="750" />
 
 <p>kt클라우드를 사용하여 배포까지 진행한 프로젝트입니다.</p>
 
