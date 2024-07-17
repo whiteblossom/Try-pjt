@@ -75,7 +75,9 @@
 
 <h2>개발 타임라인</h2>
 
-![image](https://github.com/user-attachments/assets/5650d912-57cf-4d0f-adce-786df698f124)
+![image](https://github.com/user-attachments/assets/977f969a-6c0f-4497-81b3-53b52fef9452)
+![image](https://github.com/user-attachments/assets/fb99be9e-971a-4689-9f5d-de7881a58aa1)
+
 
 <h2>시스템 구성도</h2>
 
