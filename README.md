@@ -83,6 +83,14 @@
 
 ![image](https://github.com/user-attachments/assets/1244689b-d4e6-48b9-8c65-162c826d53d0)
 
+<h2>기능 요구사항 정의서</h2>
+
+![image](https://github.com/user-attachments/assets/7ffd9bbd-6d52-49bf-93bf-b16aca66f73b)
+
+<h2>테스트 항목서</h2>
+
+![image](https://github.com/user-attachments/assets/b424d5f4-2b5f-4155-85ea-09938b11058b)
+
 <h2>최종 ERD</h2>
 
 ![news](https://github.com/user-attachments/assets/8d2950c7-36c8-4192-844f-d765136b0101)
